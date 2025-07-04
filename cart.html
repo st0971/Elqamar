@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>購物車 | Elqamar</title>
+  <link rel="stylesheet" href="css/cart.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="index.html" class="logo">Elqamar</a>
+      <nav>
+        <ul>
+          <li><a href="index.html">首頁</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">商品 <i class="arrow down"></i></a>
+            <div class="dropdown-content">
+              <a href="#">商品分類一</a>
+              <a href="#">商品分類二</a>
+              <a href="#">商品分類三</a>
+            </div>
+          </li>
+          <li><a href="notice.html">交易須知</a></li>
+          <li><a href="#">Q&A</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="navbar-right">
+      <a href="cart.html"><img src="images/cart.png" alt="購物車" /></a>
+      <a href="#" class="icon-link"><img src="images/member.png" alt="會員"></a>
+    </div>
+  </header>
+
+  <section class="cart-section">
+    <h2>購物車</h2>
+    <div class="cart-container">
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>商品</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody class="cart-tbody">
+          <!-- JS 動態填入 -->
+        </tbody>
+      </table>
+
+      <div class="cart-summary">
+        <p>總計：<span class="total-price">$0</span></p>
+        <button class="btn checkout-btn">前往結帳</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; Elqamar ｜聯絡我們：XXXXX@gmail.com</p>
+  </footer>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>

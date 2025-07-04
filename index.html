@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elqamar</title>
+    <link rel="stylesheet" href="css/index.css"> </head>
+    <!-- 小圖示 for 瀏覽器標籤 -->
+    <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
+    <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
+
+<body>
+    <header class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="logo">Elqamar</a> <nav>
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">商品 <i class="arrow down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">商品分類一</a>
+                            <a href="#">商品分類二</a>
+                            <a href="#">商品分類三</a>
+                        </div>
+                    </li>
+                    <li><a href="notice.html">交易須知</a></li>
+                    <li><a href="#">Q&A</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="navbar-right">
+            <div class="search-container">
+                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
+                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
+            </div>
+            <a href="cart.html" class="icon-link"><img src="images/cart.png" alt="購物車"></a>
+            <a href="#" class="icon-link"><img src="images/member.png" alt="會員"></a>
+        </div>
+    </header>
+
+    <!-- 圖片輪播區 -->
+    <section class="carousel">
+    <div class="carousel-track">
+        <img src="images/samplephoto.png" alt="輪播1" />
+        <img src="images/samplephoto.png" alt="輪播2" />
+        <img src="images/samplephoto.png" alt="輪播3" />
+    </div>
+    <button class="carousel-btn prev">&#10094;</button>
+    <button class="carousel-btn next">&#10095;</button>
+    </section>
+
+
+
+    <!-- 精選商品區 -->
+    <section class="product-section">
+        <h2>預購商品</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <a href="product.html?id=1">
+                    <img src="images/samplephoto.png" alt="商品1">                    
+                </a> 
+                <h3>商品名稱1</h3>
+                <p>$399</p>
+                <button class="btn" data-id="1">加入購物車</button>                    
+            </div>
+            <div class="product-card">
+                <a href="product.html?id=2">
+                    <img src="images/samplephoto.png" alt="商品2">                    
+                </a> 
+                <h3>商品名稱2</h3>
+                <p>$399</p>
+                <button class="btn" data-id="2">加入購物車</button>
+            </div>
+            <div class="product-card">
+                <a href="product.html?id=3">
+                    <img src="images/samplephoto.png" alt="商品3">                    
+                </a> 
+                <h3>商品名稱3</h3>
+                <p>$399</p>
+                <button class="btn" data-id="3">加入購物車</button>
+            </div>
+            <div class="product-card">
+                <a href="product.html?id=4">
+                    <img src="images/samplephoto.png" alt="商品4">                    
+                </a> 
+                <h3>商品名稱4</h3>
+                <p>$399</p>
+                <button class="btn" data-id="4">加入購物車</button>
+            </div>
+            
+            <!-- 請依此樣式複製 16 次 -->
+        </div>
+    </section>
+    <!-- 選頁 -->
+    <!-- <div class="pagination">
+        <button class="page-btn" data-page="1">1</button>
+        <button class="page-btn" data-page="2">2</button>
+        <button class="page-btn" data-page="3">3</button>
+    </div> -->
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+    <p>&copy; Elqamar ｜聯絡我們：XXXXX@gmail.com</p>
+    </footer>
+
+    <script src="js/index.js"></script>
+    <script src="js/cart.js"></script></body>
+</html>

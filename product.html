@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elqamar商品細項</title>
+    <link rel="stylesheet" href="css/product.css"> </head>
+    <!-- 小圖示 for 瀏覽器標籤 -->
+    <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
+    <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
+<!-- 導覽列 -->
+<body>
+    <header class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="logo">Elqamar</a> <nav>
+                <ul>
+                    <li><a href="index.html">首頁</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn">商品 <i class="arrow down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">商品分類一</a>
+                            <a href="#">商品分類二</a>
+                            <a href="#">商品分類三</a>
+                        </div>
+                    </li>
+                    <li><a href="notice.html">交易須知</a></li>
+                    <li><a href="#">Q&A</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="navbar-right">            
+            <a href="cart.html" class="icon-link"><img src="images/cart.png" alt="購物車"></a>
+            <a href="#" class="icon-link"><img src="images/member.png" alt="會員"></a>
+        </div>
+    </header>
+    <!-- 導覽列 -->
+
+     <!-- 頁面 -->
+    <section class="product-detail">
+    <div class="product-wrapper">
+        <!-- 左側圖片 -->
+        <div class="product-image">
+        <img id="product-img" src="" alt="商品圖片">
+        </div>
+
+        <!-- 右側資訊 -->
+        <div class="product-info">
+        <!-- 到JS改 -->
+        <h1 id="product-name">商品名稱</h1>
+        <p id="product-price" class="price">價格：$</p>
+        
+        <!-- 庫存數量 -->
+        <div class="product-options">
+            <div class="quantity-and-favorite">
+                <label for="quantity-select">數量：</label>
+                <select id="quantity-select" class="quantity-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                </select>
+                <span class="favorite" id="favorite">❤</span>
+            </div>
+            <button class="btn">加入購物車</button>
+        </div>
+
+
+    <hr class="section-divider">
+
+    <div class="product-description">
+        <!-- 到JS改 -->
+        <h2>商品說明</h2>
+        <p id="product-description">這是商品的詳細描述。</p>
+    </div>
+    </section>
+    <!-- 頁面 -->
+
+
+    <!-- 頁尾 -->
+    <footer class="footer">
+        <p>&copy; Elqamar ｜聯絡我們：XXXXX@gmail.com</p>
+    </footer>
+
+    <script src="js/product.js"></script>
+    <script src="js/cart.js"></script> </body>
+</html>
