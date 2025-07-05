@@ -175,20 +175,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-    // 從網址拿 productId
-    function getProductIdFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get('productId');
-    }
-
-    const productId = getProductIdFromURL();
-
-    // 下面就是你原本判斷 productId 的程式碼
-    if (productId) {
+    if (productId) { // 只有當有 productId 時才執行以下代碼，避免在 index.html 報錯
         const data = fakeData[productId];
-        // ...其餘商品頁顯示邏輯
-    }
 
         if (data) {
             // 檢查這些元素是否存在於當前頁面
@@ -208,32 +196,5 @@ document.addEventListener('DOMContentLoaded', function () {
             if (productNameElement) productNameElement.textContent = '查無此商品';
             document.title = '查無此商品 - 商品頁';
         }
-    });
-    // 購物車
-    // 假設按鈕 class 為 .btn
-    // 假設每個商品的按鈕有 data-id 屬性
-    document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-        const productId = btn.dataset.id;
-        const quantity = 1; // 預設數量1
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        const existingIndex = cart.findIndex(item => item.id === productId);
-        if (existingIndex > -1) {
-        cart[existingIndex].quantity += quantity;
-        } else {
-        const productData = products[productId]; // products 變數從 data.js
-        cart.push({
-            id: productId,
-            name: productData.name,
-            price: productData.price,
-            image: productData.image,
-            quantity: quantity
-        });
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        window.location.href = 'cart.html';
-    });
-    });
-
+    }
 });
