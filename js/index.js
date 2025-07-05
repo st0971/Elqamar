@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const pageButtons = document.querySelectorAll('.page-btn');
     const productsPerPage = 12; // 每頁顯示 12 個商品
 
+
     // 計算總頁數
     const totalPages = Math.ceil(products.length / productsPerPage);
     const paginationContainer = document.querySelector('.pagination'); // 確保 HTML 中有這個元素
@@ -108,26 +109,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const updatedPageButtons = document.querySelectorAll('.page-btn');
 
         function showPage(page) {
-            const start = (page - 1) * productsPerPage;
-            const end = start + productsPerPage;
+    const start = (page - 1) * productsPerPage;
+    const end = start + productsPerPage;
 
-            products.forEach((product, index) => {
-                // 這裡需要注意，如果商品被搜尋隱藏，則不應該被分頁顯示
-                // 應只處理可見商品的分頁
-                if (product.style.display !== 'none') { // 檢查商品是否未被搜尋功能隱藏
-                    if (index >= start && index < end) {
-                        product.style.display = 'block';
-                    } else {
-                        product.style.display = 'none';
-                    }
-                }
-            });
-
-            // 高亮目前頁碼
-            updatedPageButtons.forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`.page-btn[data-page="${page}"]`);
-            if (activeBtn) activeBtn.classList.add('active');
+    products.forEach((product, index) => {
+        if (index >= start && index < end) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
         }
+    });
+
+    // 高亮目前頁碼
+    updatedPageButtons.forEach(btn => btn.classList.remove('active'));
+    const activeBtn = document.querySelector(`.page-btn[data-page="${page}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+    }
+
 
         // 初始顯示第 1 頁
         showPage(1);
