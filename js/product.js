@@ -95,12 +95,4 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         document.getElementById('product-name').textContent = '查無此商品';
     }
-    // 我的最愛
-    const favorite = document.getElementById('favorite');
-    if (favorite) {
-    favorite.addEventListener('click', () => {
-        favorite.classList.toggle('active');
-    });
-    }
-
 });
