@@ -102,40 +102,5 @@ document.addEventListener('DOMContentLoaded', function () {
         favorite.classList.toggle('active');
     });
     }
-    // 購物車
-    // 假設按鈕 class 為 .btn
-    document.querySelector('.btn').addEventListener('click', function() {
-    const productId = productIdFromUrl; // product.html 透過 URL 取得的 id
-    const quantitySelect = document.getElementById('quantity-select');
-    const quantity = parseInt(quantitySelect.value);
-
-    // 讀取現有購物車（陣列），若沒有就空陣列
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // 先判斷購物車是否已有此商品
-    const existingIndex = cart.findIndex(item => item.id === productId);
-
-    if (existingIndex > -1) {
-        // 如果有，數量累加
-        cart[existingIndex].quantity += quantity;
-    } else {
-        // 沒有就新增商品
-        const productData = fakeData[productId]; // 你的商品資料物件
-        cart.push({
-        id: productId,
-        name: productData.name,
-        price: productData.price,
-        image: productData.img,
-        quantity: quantity
-        });
-    }
-
-    // 存回 localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // 跳轉到購物車頁
-    window.location.href = 'cart.html';
-    });
-
 
 });
