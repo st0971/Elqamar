@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // 下拉選單和搜尋欄切換 (這部分也可以考慮抽成 common.js)
     const dropdowns = document.querySelectorAll('.dropdown');
-
     dropdowns.forEach(dropdown => {
         const dropbtn = dropdown.querySelector('.dropbtn');
         const dropdownContent = dropdown.querySelector('.dropdown-content');
@@ -11,19 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 點擊外部收起 dropdown
     window.addEventListener('click', function (event) {
         dropdowns.forEach(dropdown => {
             const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn')) {
-                if (dropdownContent.classList.contains('show')) {
-                    dropdownContent.classList.remove('show');
-                }
+            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
+                dropdownContent.classList.remove('show');
             }
         });
     });
 
-    // 搜尋欄顯示／隱藏切換
     const searchToggle = document.querySelector('.search-toggle');
     const searchInput = document.querySelector('.search-input');
 
@@ -33,66 +29,40 @@ document.addEventListener('DOMContentLoaded', function () {
             searchInput.classList.toggle('hidden');
             if (!searchInput.classList.contains('hidden')) {
                 searchInput.focus();
+            } else {
+                searchInput.value = ''; // 清空搜尋框
             }
         });
 
-        // 點擊其他地方時收起搜尋欄
         window.addEventListener('click', function (event) {
-            if (
-                !event.target.closest('.search-container') &&
-                !searchInput.classList.contains('hidden')
-            ) {
+            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
                 searchInput.classList.add('hidden');
+                searchInput.value = '';
             }
         });
+        // product.js 不會有商品列表顯示，所以不需要搜尋 input 監聽器觸發 renderProducts
+        // 這裡的搜尋框只是顯示/隱藏，如果需要實際搜尋跳轉，則需要額外邏輯
     }
 
     // 取得網址參數中的商品 ID
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
+    const productId = parseInt(urlParams.get('id'));
 
-    // 商品資料
-    const fakeData = {
-        1: {
-            // name為在最上方的網頁名稱跟商品名稱
-            name: '商品名稱1',
-            price: 399,
-            img: 'images/samplephoto.png',
-            description: '【尺寸】XX約XXXmm <br>【材質】XXX'
-        },
-        2: {
-            name: '商品名稱2',
-            price: 499,
-            img: 'images/samplephoto.png',
-            description: '風格獨特、限量發售。'
-        },
-        3: {
-            // name為在最上方的網頁名稱跟商品名稱
-            name: '商品名稱3',
-            price: 399,
-            img: 'images/samplephoto.png',
-            description: '【尺寸】XX約XXXmm <br>【材質】XXX'
-        },
-        4: {
-            name: '商品名稱4',
-            price: 499,
-            img: 'images/samplephoto.png',
-            description: '風格獨特、限量發售。'
-        }
-        // ...可以擴充更多商品
-    };
-
-
-    const data = fakeData[productId];
+    // *** 關鍵修改：直接從 allProductsData 中查找商品 ***
+    const data = allProductsData.find(product => product.id === productId);
 
     if (data) {
         document.title = data.name + ' - 商品頁';
         document.getElementById('product-name').textContent = data.name;
         document.getElementById('product-img').src = data.img;
-        // 文字可以換行
-        document.getElementById('product-description').innerHTML = data.description;
+        // 文字換行
+        document.getElementById('product-description').innerHTML = data.description.replace(/\n/g, '<br>');
         document.getElementById('product-price').textContent = '價格：$' + data.price;
     } else {
+        document.title = '查無此商品 - 商品頁';
         document.getElementById('product-name').textContent = '查無此商品';
+        document.getElementById('product-price').textContent = '';
+        document.getElementById('product-img').src = '';
+        document.getElementById('product-description').innerHTML = '很抱歉，找不到您查詢的商品資訊。';
     }
 });
