@@ -288,3 +288,27 @@ body {
   transform: scale(1.15);      /* 放大 */
   filter: brightness(1.2);     /* 變亮 */
 }
+/* 交易流程 */
+.step-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 900px;
+}
+
+.step {
+  background-color: #7896ac;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  text-align: center;
+  flex: 1 1 150px;
+  min-width: 200px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
