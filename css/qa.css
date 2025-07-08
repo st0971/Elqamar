@@ -54,30 +54,55 @@ body {
 .menu-toggle {
     display: none; /* 預設在桌面版隱藏 */
     flex-direction: column;
+    justify-content: space-between; /* 讓三條 bar 垂直分佈 */
+    width: 30px; /* 給一個固定的寬度 */
+    height: 24px; /* 給一個固定的高度，確保三條 bar 能在裡面 */
     cursor: pointer;
     padding: 5px;
     z-index: 1001; /* 確保在最上層 */
+    position: relative; /* 讓內部的 bar 可以絕對定位 */
 }
 
 .menu-toggle .bar {
-    width: 25px;
+    width: 100%; /* 佔滿 menu-toggle 的寬度 */
     height: 3px;
     background-color: white;
-    margin: 4px 0;
-    transition: 0.4s;
+    /* margin: 4px 0; 這個將會被 absolute 定位取代 */
+    transition: all 0.3s ease-in-out; /* 讓所有屬性都有過渡效果 */
+    position: absolute; /* 絕對定位，方便控制轉換 */
+    left: 0;
 }
+
+/* 為了讓 bar 在 absolute 定位後也能正確分佈 */
+.menu-toggle .bar:nth-child(1) {
+    top: 0;
+}
+
+.menu-toggle .bar:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+}
+
+.menu-toggle .bar:nth-child(3) {
+    bottom: 0;
+}
+
 
 /* 當漢堡選單開啟時的動畫效果 */
 .menu-toggle.active .bar:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
+    transform: translateY(10.5px) rotate(-45deg); /* 調整 translateY 值，讓它精確移到中心點並旋轉 */
+    /* top: 50%; */ /* 其實可以不設定 top，直接靠 translateY 和 rotate */
+    /* transform-origin: top left; 可以嘗試不同 origin */
 }
 
 .menu-toggle.active .bar:nth-child(2) {
-    opacity: 0;
+    opacity: 0; /* 中間的 bar 隱藏 */
 }
 
 .menu-toggle.active .bar:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
+    transform: translateY(-10.5px) rotate(45deg); /* 調整 translateY 值，讓它精確移到中心點並旋轉 */
+    /* bottom: 50%; */
+    /* transform-origin: bottom left; */
 }
 
 
