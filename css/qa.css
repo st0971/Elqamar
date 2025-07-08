@@ -17,6 +17,34 @@ body {
 .product-detail {
   flex: 1 0 auto;
 }
+/* 新增漢堡選單按鈕樣式 */
+.menu-toggle {
+    display: none; /* 預設在桌面版隱藏 */
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+    transition: 0.4s;
+}
+
+/* 當漢堡選單開啟時的動畫效果 */
+.menu-toggle.active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
 
 /* 導覽列顏色 */
 .navbar {
@@ -26,6 +54,7 @@ body {
     background-color: #7896ac;
     color: white;
     padding: 10px 20px;
+    position: relative; /* 為漢堡選單的絕對定位做準備 */
 }
 
 .navbar-right img {
@@ -49,18 +78,62 @@ body {
     margin-right: 30px;
 }
 
+/* 手機版導覽列導航選單的樣式 */
 .navbar nav ul {
     list-style: none; /* 移除列表符號 */
+    /* 預設隱藏，並準備垂直排列 */
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* 佔滿可用寬度 */
+    position: absolute;
+    top: 100%; /* 位於 navbar 下方 */
+    left: 0;
+    background-color: #7896ac; /* 與 navbar 背景色一致 */
+    padding: 10px 0;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000; /* 確保在最上層 */
+    max-height: 0; /* 初始隱藏，用於動畫 */
+    overflow: hidden; /* 隱藏溢出內容 */
+    transition: max-height 0.4s ease-out; /* 過渡動畫 */
 }
 
 .navbar nav ul li {
-  display: inline-block;
-  margin-right: 20px;
-  position: relative; /* 為了下拉選單定位 */
+    display: block; /* 垂直堆疊 */
+    margin: 0; /* 移除左右間距 */
+    text-align: center; /* 文字置中 */
+    padding: 10px 0; /* 增加上下間距 */
 }
 
 .navbar nav ul li:last-child {
   margin-right: 0;
+}
+
+
+/* 當導覽選單展開時的樣式 */
+.navbar nav ul.show {
+    max-height: 300px; /* 設置一個足夠大的值以容納所有內容 */
+    /* 實際高度會由 JavaScript 計算 scrollHeight 設定，這裡提供一個足夠大的值 */
+}
+
+
+
+/* 下拉選單在手機版調整 (使其在漢堡選單內正常顯示) */
+.navbar nav ul li .dropdown-content {
+    position: static; /* 在手機版內，下拉選單不再是絕對定位 */
+    width: 100%; /* 佔滿父元素寬度 */
+    box-shadow: none; /* 移除陰影 */
+    background-color: rgba(120, 150, 172, 0.9); /* 稍微透明一點或使用其他顏色 */
+    padding: 0; /* 移除外層 padding */
+}
+
+.navbar nav ul li .dropdown-content a {
+    padding: 10px 20px; /* 調整內層連結的 padding */
+    text-align: center; /* 子選項也置中 */
+    color: white; /* 讓子選項顏色與 navbar 一致 */
+}
+
+.navbar nav ul li .dropdown-content a:hover {
+    background-color: #542d13;
 }
 
 /* 導覽列文字樣式 */
@@ -341,6 +414,38 @@ body {
 
 /* 響應式調整 */
 @media (max-width: 768px) {
+  .menu-toggle {
+        display: flex; /* 在小螢幕上顯示漢堡選單 */
+    }
+
+    .navbar-left {
+        /* 在小螢幕上，可能只顯示 logo，其他導覽項目隱藏在漢堡選單後 */
+        flex-grow: 1; /* 讓左側佔據更多空間，把右側推開 */
+        justify-content: flex-start; /* 讓 logo 靠左 */
+    }
+
+    .navbar nav {
+        /* 隱藏預設的導覽連結，由漢堡選單控制 */
+        display: none; /* 透過 JS 控制的 ul.show 會覆蓋此設定 */
+    }
+
+    .navbar nav ul {
+        display: none; /* 確保預設隱藏，由 JS 控制顯示 */
+    }
+
+    .navbar-right {
+        margin-left: auto; /* 將右側圖標推到最右邊 */
+        order: 1; /* 調整順序，讓右側圖標在漢堡選單前面 */
+    }
+
+    .logo {
+        margin-right: 0; /* 移除 logo 的右側間距 */
+    }
+
+    /* 調整右側圖標在手機版的大小和間距 */
+    .navbar-right .icon-link {
+        margin-left: 10px; /* 調整圖標間距 */
+    }
     .qa-container {
         margin: 20px auto;
         padding: 0 15px;
@@ -370,6 +475,18 @@ body {
 }
 
 @media (max-width: 480px) {
+  .navbar {
+        padding: 8px 15px; /* 縮小 navbar 的 padding */
+    }
+
+    .logo {
+        font-size: 20px; /* 縮小 logo 字體 */
+    }
+
+    .navbar-right .icon-link img {
+        width: 20px; /* 縮小右側圖標 */
+        height: 20px;
+    }
     .qa-container {
         margin: 15px auto;
         padding: 0 10px;
