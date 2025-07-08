@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elqamar</title>
     <link rel="stylesheet" href="css/notice.css"> </head>
+    <link rel="stylesheet" href="css/common.css">
     <!-- 小圖示 for 瀏覽器標籤 -->
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
     <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
@@ -16,38 +18,45 @@
                 <ul>
                     <li><a href="index.html">首頁</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropbtn">商品 <i class="arrow down"></i></a>
+                        <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
                         <div class="dropdown-content">
-                            <a href="#">商品分類一</a>
-                            <a href="#">商品分類二</a>
-                            <a href="#">商品分類三</a>
+                            <a href="idv.html">第五人格</a>
+                            <a href="#"></a>
+                            <a href="#"></a>
                         </div>
                     </li>
+                    <li><a href="spot.html">現貨商品</a></li>
                     <li><a href="">交易須知</a></li>
-                    <li><a href="#">Q&A</a></li>
+                    <li><a href="qa.html">Q&A</a></li>
                 </ul>
             </nav>
         </div>
         <div class="navbar-right">
-            <div class="search-container">
-                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
-                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
-            </div>
+            <a href="cart.html" class="icon-link cart-icon-wrapper">
+                <img src="images/cart.png" alt="購物車">
+                <span class="cart-count">0</span>
+            </a>
+            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
+                <img src="images/ig.png" alt="IG">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
+                <img src="images/fb.png" alt="FB">
+            </a>
         </div>
     </header>
 
-    <!-- 交易須知 -->
+    <!-- 精選商品區 -->
     <section class="product-section">
         <h2>交易須知</h2>
             <div class="text-container">
                 <div class="left-text" >● 喊單後需先匯款，收完款後才會下單<br>● 未在期限匯款將發布黑單or警告單<br>● 抱盒商品有概率無法湊齊該柄圖全員，不提供退換貨服務<br>
                 ● 請確認資料表的內容是否正確，如有錯誤請立即聯繫，如未確認導致訂單錯誤，將不提供退換貨<br>● 代購屬於客製化訂單，不符合7天鑑賞期<br>● 交易成功達五次者能獲得折扣優惠<br>
-                ● 無開箱不售後，若商品有缺漏，請私訊開箱影片與缺漏品項<br>● 出貨後如未取貨導致退回，將酌收30元後再次出貨，仍被退回則依次疊加30元</div>
+                ● 無開箱不售後，若商品有缺漏，請私訊開箱影片與缺漏品項<br><p style="color: red;">● 出貨後如未取貨導致退回，將酌收30元後再次出貨，仍被退回則依次疊加30元</p></div>
                 <div class="right-text" >● 未成年交易視為監護人同意<br>● 客製化服務為代買，無法保證真偽，請自行評估風險與責任<br>● 不與黑灰單交易<br>● 視情況進行二補<br>
-                ● 除寄錯/少寄外，售後不退，請確認清楚再購買<br>● 物品需一段時間等待<br>● 商品皆默認初傷、運損</div>
+                <p style="color: red;">● 除寄錯/少寄外，售後不退，請確認清楚再購買</p>● 物品需一段時間等待<br><p style="color: red;">● 商品皆默認初傷、運損</p></div>
             </div>
     </section>
-    <!-- 付款方式 -->
+     <!-- 付款方式 -->
     <section class="product-section">
     <div class="text-container">
         <div class="left-text">
@@ -72,8 +81,6 @@
         </div>
     </div>
     </section>
-
-            
     <!-- 選頁 -->
     <!-- <div class="pagination">
         <button class="page-btn" data-page="1">1</button>
@@ -83,8 +90,13 @@
 
     <!-- 頁尾 -->
     <footer class="footer">
-    <p>&copy; Elqamar ｜聯絡我們：XXXXX@gmail.com</p>
+        <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
+                <img src="images/ig.png" alt="IG">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
+                <img src="images/fb.png" alt="FB">
+            </a></p>
     </footer>
 
-    <script src="js/notice.js"></script> </body>
+    <script src="js/cart-count.js"></script></body>
 </html>
