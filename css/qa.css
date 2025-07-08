@@ -53,8 +53,7 @@ body {
 /* 新增漢堡選單按鈕樣式 */
 .menu-toggle {
     display: none; /* 預設在桌面版隱藏 */
-    flex-direction: column;
-    justify-content: space-between; /* 讓三條 bar 垂直分佈 */
+    /* 移除 flex-direction 和 justify-content，因為 bar 已經 absolute 定位 */
     width: 30px; /* 給一個固定的寬度 */
     height: 24px; /* 給一個固定的高度，確保三條 bar 能在裡面 */
     cursor: pointer;
@@ -67,10 +66,11 @@ body {
     width: 100%; /* 佔滿 menu-toggle 的寬度 */
     height: 3px;
     background-color: white;
-    /* margin: 4px 0; 這個將會被 absolute 定位取代 */
     transition: all 0.3s ease-in-out; /* 讓所有屬性都有過渡效果 */
     position: absolute; /* 絕對定位，方便控制轉換 */
     left: 0;
+    /* 設置所有 bar 的 transform-origin 為中心，確保旋轉時從中心點開始 */
+    transform-origin: center;
 }
 
 /* 為了讓 bar 在 absolute 定位後也能正確分佈 */
@@ -80,7 +80,7 @@ body {
 
 .menu-toggle .bar:nth-child(2) {
     top: 50%;
-    transform: translateY(-50%); /* 垂直居中 */
+    transform: translateY(-50%); /* 垂直居中，這是 bar 2 的初始位置 */
 }
 
 .menu-toggle .bar:nth-child(3) {
@@ -90,9 +90,9 @@ body {
 
 /* 當漢堡選單開啟時的動畫效果 */
 .menu-toggle.active .bar:nth-child(1) {
-    transform: translateY(10.5px) rotate(-45deg); /* 調整 translateY 值，讓它精確移到中心點並旋轉 */
-    /* top: 50%; */ /* 其實可以不設定 top，直接靠 translateY 和 rotate */
-    /* transform-origin: top left; 可以嘗試不同 origin */
+    /* 組合 transform: translateY(Y軸移動) rotate(旋轉角度) */
+    /* 將第一條 bar 移動到中央，然後旋轉 */
+    transform: translateY(10.5px) rotate(-45deg);
 }
 
 .menu-toggle.active .bar:nth-child(2) {
@@ -100,9 +100,18 @@ body {
 }
 
 .menu-toggle.active .bar:nth-child(3) {
-    transform: translateY(-10.5px) rotate(45deg); /* 調整 translateY 值，讓它精確移到中心點並旋轉 */
-    /* bottom: 50%; */
-    /* transform-origin: bottom left; */
+    /* 將第三條 bar 移動到中央，然後旋轉 */
+    transform: translateY(-10.5px) rotate(45deg);
+}
+
+/* 在媒體查詢內調整 menu-toggle 的樣式，確保其 display: flex */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* 在小螢幕上顯示漢堡選單 */
+        /* 因為 bar 已經是 absolute 定位，這裡不再需要 flex-direction 和 justify-content */
+    }
+    /* 其他媒體查詢內的樣式不變 */
+    /* ... (保持您原有的其他媒體查詢內 Navbar 相關樣式) ... */
 }
 
 
