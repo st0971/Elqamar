@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elqamar</title>
-    <link rel="stylesheet" href="css/notice.css"> </head>
+    <link rel="stylesheet" href="css/qa.css">
+    <link rel="stylesheet" href="css/notice.css">
     <link rel="stylesheet" href="css/common.css">
     <!-- 小圖示 for 瀏覽器標籤 -->
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
@@ -13,37 +14,45 @@
 
 <body>
     <header class="navbar">
-        <div class="navbar-left">
-            <a href="index.html" class="logo">Elqamar</a> <nav>
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="idv.html">第五人格</a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </li>
-                    <li><a href="spot.html">現貨商品</a></li>
-                    <li><a href="">交易須知</a></li>
-                    <li><a href="qa.html">Q&A</a></li>
-                </ul>
-            </nav>
+    <div class="navbar-left">
+        <a href="index.html" class="logo">Elqamar</a>
+        <div class="menu-toggle">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
         </div>
-        <div class="navbar-right">
-            <a href="cart.html" class="icon-link cart-icon-wrapper">
-                <img src="images/cart.png" alt="購物車">
-                <span class="cart-count">0</span>
-            </a>
-            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
-                <img src="images/ig.png" alt="IG">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
-                <img src="images/fb.png" alt="FB">
-            </a>
-        </div>
-    </header>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">首頁</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
+                <div class="dropdown-content">
+                    <a href="idv.html">第五人格</a>
+                    <a href="#">商品類別二 (範例)</a>
+                    <a href="#">商品類別三 (範例)</a>
+                </div>
+            </li>
+            <li><a href="spot.html">現貨商品</a></li>
+            <li><a href="notice.html">交易須知</a></li>
+            <li><a href="qa.html">Q&A</a></li>
+            </ul>
+    </nav>
+
+    <div class="navbar-right">
+        <a href="cart.html" class="icon-link cart-icon-wrapper">
+            <img src="images/cart.png" alt="購物車">
+            <span class="cart-count">0</span>
+        </a>
+        <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
+            <img src="images/ig.png" alt="IG">
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
+            <img src="images/fb.png" alt="FB">
+        </a>
+    </div>
+</header>
     <!-- 交易流程 -->
     <section class="product-section">
         <h2>購買流程(預購&限時開團)</h2>
@@ -110,5 +119,6 @@
             </a></p>
     </footer>
 
-    <script src="js/cart-count.js"></script></body>
+    <script src="js/cart-count.js"></script>
+    <script src="js/qa.js"></script></body>
 </html>
