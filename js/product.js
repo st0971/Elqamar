@@ -1,68 +1,94 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // 下拉選單和搜尋欄切換 (這部分也可以考慮抽成 common.js)
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-
-        dropbtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-    });
-
-    window.addEventListener('click', function (event) {
-        dropdowns.forEach(dropdown => {
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-    });
-
-    const searchToggle = document.querySelector('.search-toggle');
-    const searchInput = document.querySelector('.search-input');
-
-    if (searchToggle && searchInput) {
-        searchToggle.addEventListener('click', function (e) {
-            e.preventDefault();
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
-                searchInput.focus();
-            } else {
-                searchInput.value = ''; // 清空搜尋框
-            }
-        });
-
-        window.addEventListener('click', function (event) {
-            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('hidden');
-                searchInput.value = '';
-            }
-        });
-        // product.js 不會有商品列表顯示，所以不需要搜尋 input 監聽器觸發 renderProducts
-        // 這裡的搜尋框只是顯示/隱藏，如果需要實際搜尋跳轉，則需要額外邏輯
+    // 確認 allProductsData 已載入
+    if (typeof allProductsData === 'undefined') {
+        console.error("allProductsData.js not loaded!");
+        return;
     }
 
     // 取得網址參數中的商品 ID
     const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'));
+    const productId = urlParams.get('id');
 
-    // *** 關鍵修改：直接從 allProductsData 中查找商品 ***
-    const data = allProductsData.find(product => product.id === productId);
+    // 找到對應商品
+    const product = allProductsData.find(p => String(p.id) === String(productId));
 
-    if (data) {
-        document.title = data.name + ' - 商品頁';
-        document.getElementById('product-name').textContent = data.name;
-        document.getElementById('product-img').src = data.img;
-        // 文字換行
-        document.getElementById('product-description').innerHTML = data.description.replace(/\n/g, '<br>');
-        document.getElementById('product-price').textContent = '價格：$' + data.price;
+    if (product) {
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-img').src = product.img;
+        document.getElementById('product-description').innerHTML = product.description.replace(/\n/g, '<br>');
+        document.getElementById('product-price').textContent = `價格：$${product.price}`;
+
+        // 設定加入購物車按鈕的 data-id 屬性
+        const addToCartBtn = document.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.dataset.id = product.id;
+        }
+
+        document.title = `${product.name} - 商品頁`;
     } else {
-        document.title = '查無此商品 - 商品頁';
         document.getElementById('product-name').textContent = '查無此商品';
-        document.getElementById('product-price').textContent = '';
-        document.getElementById('product-img').src = '';
-        document.getElementById('product-description').innerHTML = '很抱歉，找不到您查詢的商品資訊。';
+        document.title = '查無此商品 - 商品頁';
+        return; // 停止執行後續
+    }
+
+    // 更新購物車小紅點函式
+    function updateCartCount() {
+        const cartCountElem = document.querySelector('.cart-count');
+        let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
+        let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (totalQuantity > 0) {
+            cartCountElem.textContent = totalQuantity > 99 ? '99+' : totalQuantity;
+            cartCountElem.style.display = 'inline-block';
+        } else {
+            cartCountElem.style.display = 'none';
+        }
+    }
+
+    // 頁面一載入就更新小紅點
+    updateCartCount();
+
+    // 加入購物車按鈕事件
+    const addToCartBtn = document.querySelector('.add-to-cart-btn');
+    if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function () {
+            const idToAdd = this.dataset.id;
+            const quantity = parseInt(document.getElementById('quantity-select').value, 10);
+            
+            let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
+            const existingItemIndex = cart.findIndex(item => String(item.id) === String(idToAdd));
+
+            if (existingItemIndex > -1) {
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                const productDetails = allProductsData.find(p => String(p.id) === String(idToAdd));
+                if (productDetails) {
+                    cart.push({
+                        id: String(idToAdd),
+                        name: productDetails.name,
+                        price: productDetails.price,
+                        img: productDetails.img,
+                        quantity: quantity
+                    });
+                } else {
+                    console.error('Product data not found for ID:', idToAdd);
+                    alert('無法將商品加入購物車：商品資料不存在！');
+                    return;
+                }
+            }
+
+            // ✅ Correction: Use 'cart' instead of 'data' to save to localStorage
+            localStorage.setItem("cart-A", JSON.stringify(cart));
+
+            // ✅ 改為使用 showToast（如果有的話），保持風格一致
+            if (typeof showToast === 'function') {
+                showToast('商品已加入購物車！');
+            } else {
+                alert('商品已加入購物車！');
+            }
+
+            // 更新小紅點
+            updateCartCount();
+        });
     }
 });
