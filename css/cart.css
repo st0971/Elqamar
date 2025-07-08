@@ -1,12 +1,20 @@
 /* 基本重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.carousel,
+.product-section,
+.product-detail {
+  flex: 1 0 auto;
 }
 
 /* 導覽列顏色 */
@@ -17,6 +25,12 @@ body {
     background-color: #7896ac;
     color: white;
     padding: 10px 20px;
+}
+
+.navbar-right img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .navbar-left,
@@ -39,13 +53,13 @@ body {
 }
 
 .navbar nav ul li {
-    display: inline-block; /* 讓選單項目水平排列 */
-    margin-right: 20px;
-    position: relative; /* 為了下拉選單定位 */
+  display: inline-block;
+  margin-right: 20px;
+  position: relative; /* 為了下拉選單定位 */
 }
 
 .navbar nav ul li:last-child {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 /* 導覽列文字樣式 */
@@ -152,6 +166,75 @@ body {
     border: none;
     pointer-events: none;
 }
+/* 輪播區 */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 300px; /* 你可以改為 400px 或其他 */
+  overflow: hidden;
+  background-color: #c7d6e2;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
+}
+
+.carousel-track img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  color: #542d13;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+
+.carousel-image.active {
+  display: block;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  color: #542d13;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
 
 .btn {
   background-color: #fee985;
@@ -239,38 +322,113 @@ body {
 .page-btn.active {
   background-color: #e5c0a3;
 }
-/* 左右文字框 */
-.text-container {
-  display: flex;
-  flex-wrap: wrap; /* 小螢幕自動換行 */
-  gap: 30px;
-  padding: 20px;
-}
-
-.left-text,
-.right-text {
-  width: 48%;
-  font-size: 16px;
-  line-height: 1.6;
-  color: #333;
-}
-
-/* 手機版變成上下排列 */
-@media (max-width: 768px) {
-  .left-text,
-  .right-text {
-    width: 100%;
-  }
-}
 
 
 /* 頁尾 */
 .footer {
+  margin-top: auto;
   background-color: #7896ac;
   color: white;
   text-align: center;
   padding: 20px 10px;
-  margin-top: 0px;
+}
+
+/* 購物車區域 */
+
+    .cart-section {
+      flex: 1 0 auto;
+    }
+    .cart-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #542d13;
+    }
+    .cart-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    .cart-table th,
+    .cart-table td {
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+      padding: 12px;
+    }
+    .cart-table th {
+      background-color: #7896ac;
+      color: white;
+    }
+    .product-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .product-info img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .cart-summary {
+      text-align: right;
+      font-size: 18px;
+      color: #542d13;
+    }
+    .btn {
+      background-color: #fee985;
+      color: #542d13;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .quantity-select {
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    /* cart.css (在文件末尾新增或修改) */
+
+.cart-product-link {
+    display: flex;
+    align-items: center;   /* 垂直對齊圖片和文字的中心 */
+    /* 移除任何可能導致置中的屬性，例如：justify-content: center; */
+    /* 確保沒有 width: 100%; 和 margin: 0 auto; 的組合，這會導致置中 */
+    text-decoration: none; /* 移除連結下劃線，可選 */
+    color: inherit;        /* 繼承父元素文字顏色，可選 */
+}
+
+/* 3. 圖片的樣式 */
+.cart-product-link img {
+    width: 80px; /* 圖片寬度 */
+    height: 80px; /* 圖片高度 */
+    object-fit: contain; /* 確保圖片在框內完整顯示 */
+    margin-right: 10px; /* 圖片與文字之間的間距 */
+    /* 確保沒有 margin: auto; */
+}
+
+/* 確保 product-info 樣式仍然適用 */
+.product-info {
+    text-align: left; /* 顯式設定為左對齊，防止其他樣式覆寫 */
+    vertical-align: middle; /* 讓內容在垂直方向上居中（可選，但通常讓表格好看） */
+    /* 移除任何可能導致置中的屬性，例如：justify-content 或 margin: auto 等 */
+}
+
+/* 如果 .product-info img 有更具體的寬高，這裡可以調整 */
+.product-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 /* IGFB */
 .icon-link {

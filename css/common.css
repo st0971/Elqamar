@@ -1,0 +1,36 @@
+/* 基本重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 全局字體設定 */
+body {
+  /* 建議使用思源黑體 (Noto Sans TC) 或微軟正黑體 (Microsoft JhengHei) */
+  /* 如果用戶的系統沒有這些字體，會依次嘗試下一個，最後使用無襯線字體 */
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* 購物車數量提示 */
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-block; /* 讓 span 定位在 img 上 */
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px; /* 調整位置 */
+    right: -8px; /* 調整位置 */
+    background-color: #e26666; /* 紅色背景 */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%; /* 圓形 */
+    padding: 2px 6px;
+    min-width: 20px; /* 確保單個數字也是圓形 */
+    text-align: center;
+    line-height: 1.2;
+    pointer-events: none; /* 讓點擊穿透到下面的購物車圖示 */
+    display: none; /* 預設隱藏，有商品時才顯示 */
+}
