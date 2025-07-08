@@ -89,10 +89,10 @@ body {
 
 
 /* 當漢堡選單開啟時的動畫效果 */
+/* 當漢堡選單開啟時的動畫效果 */
 .menu-toggle.active .bar:nth-child(1) {
-    /* 組合 transform: translateY(Y軸移動) rotate(旋轉角度) */
-    /* 將第一條 bar 移動到中央，然後旋轉 */
-    transform: translateY(10.5px) rotate(-45deg);
+    top: 50%; /* 將第一條線移到 menu-toggle 的垂直中心 */
+    transform: translateY(-50%) rotate(-45deg); /* 然後向上移動半條線的高度並旋轉 */
 }
 
 .menu-toggle.active .bar:nth-child(2) {
@@ -100,8 +100,8 @@ body {
 }
 
 .menu-toggle.active .bar:nth-child(3) {
-    /* 將第三條 bar 移動到中央，然後旋轉 */
-    transform: translateY(-10.5px) rotate(45deg);
+    top: 50%; /* 將第三條線移到 menu-toggle 的垂直中心 */
+    transform: translateY(-50%) rotate(45deg); /* 然後向上移動半條線的高度並旋轉 */
 }
 
 /* 在媒體查詢內調整 menu-toggle 的樣式，確保其 display: flex */
