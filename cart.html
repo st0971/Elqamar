@@ -10,23 +10,27 @@
 <body>
   <header class="navbar">
     <div class="navbar-left">
-      <a href="index.html" class="logo">Elqamar</a>
-      <nav>
-        <ul>
-          <li><a href="index.html">首頁</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
-            <div class="dropdown-content">
-              <a href="idv.html">第五人格</a>
-              <a href="#"></a>
-              <a href="#"></a>
-            </div>
-          </li>
-          <li><a href="spot.html">現貨商品</a></li>
-          <li><a href="notice.html">交易須知</a></li>
-          <li><a href="qa.html">Q&A</a></li>
-        </ul>
-      </nav>
+        <a href="index.html" class="logo">Elqamar</a>
+        <div class="hamburger-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">首頁</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="idv.html">第五人格</a>
+                        <a href="#"></a>
+                        <a href="#"></a>
+                    </div>
+                </li>
+                <li><a href="spot.html">現貨商品</a></li> <li><a href="notice.html">交易須知</a></li>
+                <li><a href="qa.html">Q&A</a></li>
+            </ul>
+        </nav>
     </div>
     <div class="navbar-right">
       <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link"><img src="images/ig.png" alt="IG"></a>
@@ -37,19 +41,19 @@
   <section class="cart-section">
     <h2>此為試算處</h2>
     <div class="cart-container">
-      <table class="cart-table">
+      <div class="cart-table-wrapper"> <table class="cart-table">
         <thead>
-          <tr>
-            <th>商品</th>
-            <th>單價</th>
-            <th>數量</th>
-            <th>小計</th>
-            <th>操作</th>
-          </tr>
+            <tr>
+                <th>商品</th>
+                <th>價格</th>
+                <th>數量</th>
+                <th>小計</th>
+                <th>移除</th>
+            </tr>
         </thead>
-        <tbody class="cart-tbody">
-          </tbody>
-      </table>
+        <tbody id="cart-items-container"></tbody>
+        </table>
+    </div> 
 
       <div class="cart-summary">
         <p>總計：<span class="total-price">$0</span></p>
