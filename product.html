@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elqamar商品細項</title>
-    <link rel="stylesheet" href="css/common.css">
+    <title>商品詳情 - Elqamar</title>
     <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/common.css">
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
     <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
 </head>
@@ -29,58 +29,35 @@
                             <a href="#"></a>
                         </div>
                     </li>
-                    <li><a href="spot.html">現貨商品</a></li> <li><a href="notice.html">交易須知</a></li>
+                    <li><a href="spot.html">現貨商品</a></li>
+                    <li><a href="notice.html">交易須知</a></li>
                     <li><a href="qa.html">Q&A</a></li>
                 </ul>
             </nav>
         </div>
         <div class="navbar-right">
+            <div class="search-container">
+                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
+                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
+            </div>
             <a href="cart.html" class="icon-link cart-icon-wrapper">
                 <img src="images/cart.png" alt="購物車">
                 <span class="cart-count">0</span>
             </a>
-            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link"><img src="images/ig.png" alt="IG"></a>
-            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link"><img src="images/fb.png" alt="FB"></a>
+            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
+                <img src="images/ig.png" alt="IG">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
+                <img src="images/fb.png" alt="FB">
+            </a>
         </div>
     </header>
 
-    <section class="product-detail">
-        <div class="product-wrapper">
-            <div class="product-image">
-                <img id="product-img" src="" alt="商品圖片">
-            </div>
-
-            <div class="product-info">
-                <h1 id="product-name">商品名稱</h1>
-                <p id="product-price" class="price">價格：$</p>
-
-                <div class="product-options">
-                    <div class="quantity-and-favorite">
-                        <label for="quantity-select">數量：</label>
-                        <select id="quantity-select" class="quantity-select">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-                    <button id="add-to-cart-btn" class="btn add-to-cart-btn">加入購物車</button>
-                </div>
-
-                <hr class="section-divider">
-
-                <div class="product-description">
-                    <h2>商品說明</h2>
-                    <p id="product-description">這是商品的詳細描述。</p>
-                </div>
-            </div>
+    <main class="product-detail-container">
+        <section class="product-detail" id="product-detail-section">
+            <p>載入商品中...</p>
         </section>
+    </main>
 
     <footer class="footer">
         <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
@@ -91,12 +68,10 @@
             </a></p>
     </footer>
 
-    <!-- 提示框 -->
     <div id="toast-notification" class="toast-notification"></div>
 
     <script src="js/allProductsData.js"></script>
     <script src="js/cart-count.js"></script>
-    <script src="js/common.js"></script>
     <script src="js/product.js"></script>
-    </body>
+</body>
 </html>

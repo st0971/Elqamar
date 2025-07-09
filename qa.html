@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elqamar | Q&A</title>
-    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/qa.css">
+    <link rel="stylesheet" href="css/common.css">
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
     <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
 </head>
@@ -29,12 +29,17 @@
                             <a href="#"></a>
                         </div>
                     </li>
-                    <li><a href="spot.html">現貨商品</a></li> <li><a href="notice.html">交易須知</a></li>
+                    <li><a href="spot.html">現貨商品</a></li>
+                    <li><a href="notice.html">交易須知</a></li>
                     <li><a href="qa.html">Q&A</a></li>
                 </ul>
             </nav>
         </div>
         <div class="navbar-right">
+            <div class="search-container">
+                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
+                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
+            </div>
             <a href="cart.html" class="icon-link cart-icon-wrapper">
                 <img src="images/cart.png" alt="購物車">
                 <span class="cart-count">0</span>
@@ -133,7 +138,6 @@
     <div id="toast-notification" class="toast-notification"></div>
 
     <script src="js/cart-count.js"></script>
-    <script src="js/common.js"></script>
     <script src="js/qa.js"></script>
 </body>
 </html>

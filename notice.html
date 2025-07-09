@@ -1,16 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elqamar</title>
-    <link rel="stylesheet" href="css/common.css"> </head>
+    <title>交易須知 - Elqamar</title>
     <link rel="stylesheet" href="css/notice.css">
-    <!-- 小圖示 for 瀏覽器標籤 -->
+    <link rel="stylesheet" href="css/common.css">
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
     <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
-
+</head>
 <body>
     <header class="navbar">
         <div class="navbar-left">
@@ -31,12 +29,17 @@
                             <a href="#"></a>
                         </div>
                     </li>
-                    <li><a href="spot.html">現貨商品</a></li> <li><a href="notice.html">交易須知</a></li>
+                    <li><a href="spot.html">現貨商品</a></li>
+                    <li><a href="notice.html">交易須知</a></li>
                     <li><a href="qa.html">Q&A</a></li>
                 </ul>
             </nav>
         </div>
         <div class="navbar-right">
+            <div class="search-container">
+                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
+                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
+            </div>
             <a href="cart.html" class="icon-link cart-icon-wrapper">
                 <img src="images/cart.png" alt="購物車">
                 <span class="cart-count">0</span>
@@ -49,63 +52,62 @@
             </a>
         </div>
     </header>
-    <!-- 交易流程 -->
-    <section class="product-section">
-        <h2>購買流程(預購&限時開團)</h2>
-        <div class="step-container">
-            <div class="step">1. 選擇商品</div>
-            <div class="step">2. 私訊確認訂單資料</div>
-            <div class="step">3. 選擇付款方式</div>
-            <div class="step">4. 等待商品到台</div>
-            <div class="step">5. 二補價格</div>
-            <div class="step">6. 物流配送</div>
-        </div>            
-    </section>
 
-    <!-- 精選商品區 -->
-    <section class="product-section">
-        <h2>交易須知</h2>
-            <div class="text-container">
-                <div class="left-text" >● 喊單後需先匯款，收完款後才會下單<br>● 未在期限匯款將發布黑單or警告單<br>● 抱盒商品有概率無法湊齊該柄圖全員，不提供退換貨服務<br>
-                ● 請確認資料表的內容是否正確，如有錯誤請立即聯繫，如未確認導致訂單錯誤，將不提供退換貨<br>● 代購屬於客製化訂單，不符合7天鑑賞期<br>● 交易成功達五次者能獲得折扣優惠<br>
-                ● 無開箱不售後，若商品有缺漏，請私訊開箱影片與缺漏品項<br><p style="color: red;">● 出貨後如未取貨導致退回，將酌收30元後再次出貨，仍被退回則依次疊加30元</p></div>
-                <div class="right-text" >● 未成年交易視為監護人同意<br>● 客製化服務為代買，無法保證真偽，請自行評估風險與責任<br>● 不與黑灰單交易<br>● 視情況進行二補<br>
-                <p style="color: red;">● 除寄錯/少寄外，售後不退，請確認清楚再購買</p>● 物品需一段時間等待<br><p style="color: red;">● 商品皆默認初傷、運損</p></div>
-            </div>
-    </section>
-     <!-- 付款方式 -->
-    <section class="product-section">
-    <div class="text-container">
-        <div class="left-text">
-            <section class="product-section">
-                <h2>付款方式</h2>
-                ✨ 匯款    <br>
-                ✨ 台新無卡<br>
-                ✨ 超商條碼+30<br>
-                ✨ 超商代碼+30<br>
-                ✨ 郵局跨行（郵局會收30手續費）<br>
-                ✨ 空包+12<br>
-            </section>
-        </div>
-        <div class="right-text">
-            <section class="product-section">
-                <h2>配送方式</h2>
-                ✨ 賣貨便＋15＆當月運費<br>
-                ✨ 好賣家＋15＆當月運費<br>
-                ✨ 蝦皮＋當月手續%數＆當月運費<br>
-                ✨ 郵局<a href="https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=2030103" style="text-decoration: none;">（費用請詳閱網址）</a><br><br><br>
-            </section>
-        </div>
-    </div>
-    </section>
-    <!-- 選頁 -->
-    <!-- <div class="pagination">
-        <button class="page-btn" data-page="1">1</button>
-        <button class="page-btn" data-page="2">2</button>
-        <button class="page-btn" data-page="3">3</button>
-    </div> -->
+    <main class="notice-container">
+        <h1>交易須知</h1>
 
-    <!-- 頁尾 -->
+        <section class="notice-section">
+            <h2>預購/代購說明</h2>
+            <ul>
+                <li>本站商品均為日本、中國、韓國等地區的官方正版商品。</li>
+                <li>預購商品需等待較長出貨時間，約1-3個月不等，請耐心等候。</li>
+                <li>訂單成立後請勿隨意取消，如有特殊情況請提前聯繫客服。</li>
+                <li>預購商品價格可能因匯率波動或官方定價調整而有所變動。</li>
+                <li>商品到貨後，將依訂單順序陸續出貨。</li>
+            </ul>
+        </section>
+
+        <section class="notice-section">
+            <h2>現貨商品說明</h2>
+            <ul>
+                <li>現貨商品會在確認訂單後盡快寄出。</li>
+                <li>好賣家寄送：當天可出貨。</li>
+                <li>賣貨便或郵局寄送：一週內出貨。</li>
+                <li>現貨商品售完為止。</li>
+            </ul>
+        </section>
+
+        <section class="notice-section">
+            <h2>付款方式</h2>
+            <ul>
+                <li>銀行轉帳：提供指定銀行帳號進行轉帳。</li>
+                <li>空包：提供特殊方式進行付款，詳情請聯絡客服。</li>
+                <li>超商代碼繳費：提供超商繳費代碼，需加收手續費。</li>
+                <li>現場付款：若有面交服務，可選擇現場付款。</li>
+            </ul>
+        </section>
+
+        <section class="notice-section">
+            <h2>退換貨政策</h2>
+            <ul>
+                <li>預購商品及限時開團收款後不可取消或退貨。</li>
+                <li>現貨商品在未出貨前可聯繫客服取消。</li>
+                <li>商品若有嚴重瑕疵，請在收到商品後七天內提供照片或影片聯繫客服。</li>
+                <li>經鑑定為非人為損壞之瑕疵，可協助辦理換貨或退款。</li>
+                <li>退換貨商品必須保持全新狀態，包裝完整。</li>
+            </ul>
+        </section>
+
+        <section class="notice-section">
+            <h2>其他注意事項</h2>
+            <ul>
+                <li>本網站僅提供商品資訊與試算，實際交易請透過社群軟體聯繫。</li>
+                <li>所有商品圖片僅供參考，請以實物為準。</li>
+                <li>若有任何疑問，請透過Q&A頁面或社群平台聯繫我們。</li>
+            </ul>
+        </section>
+    </main>
+
     <footer class="footer">
         <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
                 <img src="images/ig.png" alt="IG">
@@ -115,6 +117,9 @@
             </a></p>
     </footer>
 
-    <script src="js/common.js"></script>
-    <script src="js/cart-count.js"></script></body>
+    <div id="toast-notification" class="toast-notification"></div>
+
+    <script src="js/cart-count.js"></script>
+    <script src="js/notice.js"></script>
+</body>
 </html>
