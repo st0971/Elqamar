@@ -11,43 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return; // 中止函式執行
     }
     
-
-        // --- 導覽列漢堡選單功能 ---
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const navLinks = document.querySelector('.navbar nav'); // 選擇 nav 元素本身
-
-    if (hamburgerMenu && navLinks) {
-        hamburgerMenu.addEventListener('click', function() {
-            navLinks.classList.toggle('active'); // 切換 nav 元素的 active class
-            hamburgerMenu.classList.toggle('active'); // 為漢堡選單圖示添加動畫 class
-        });
-
-        // 點擊導覽列連結後收起選單
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                hamburgerMenu.classList.remove('active');
-            });
-        });
-    }
-
-    // 將下拉選單的點擊邏輯調整，使其在手機版也能正常收放
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-
-        dropbtn.addEventListener('click', function (event) {
-            event.preventDefault(); // 阻止連結的預設行為
-            dropdownContent.classList.toggle('show');
-            // 如果點擊下拉按鈕時，導覽列沒有展開，也應該展開
-            if (!navLinks.classList.contains('active')) {
-                navLinks.classList.add('active');
-                hamburgerMenu.classList.add('active');
-            }
-        });
-    });
-
     window.addEventListener('click', function (event) {
         // 如果點擊的不是下拉按鈕、也不是下拉選單內容，且不是漢堡選單、也不是導覽列本身
         if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content') &&
