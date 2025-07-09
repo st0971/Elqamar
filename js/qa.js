@@ -1,7 +1,7 @@
 // js/qa.js
 
 document.addEventListener('DOMContentLoaded', function() {
-    // --- 導覽列下拉選單功能 ---
+    // --- 導覽列下拉選單功能 (從 index.js 或 common.js 複製過來，確保每個頁面都有此功能) ---
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const dropbtn = dropdown.querySelector('.dropbtn');
@@ -22,28 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // --- 漢堡選單功能 ---
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const mainNav = document.querySelector('.navbar nav');
-
-    if (hamburgerMenu && mainNav) {
-        hamburgerMenu.addEventListener('click', function() {
-            this.classList.toggle('active'); // 切換漢堡選單圖標的動畫
-            mainNav.classList.toggle('open'); // 切換導航選單的顯示/隱藏
-        });
-
-        // 點擊導覽列連結後收起選單 (可選)
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (mainNav.classList.contains('open')) {
-                    hamburgerMenu.classList.remove('active');
-                    mainNav.classList.remove('open');
-                }
-            });
-        });
-    }
-
-    // --- 搜尋列功能 ---
+    // --- 搜尋列功能 (僅用於切換顯示/隱藏，實際搜尋行為不在 Q&A 頁面進行) ---
+    // Q&A 頁面的搜尋列通常不進行商品搜尋，只是單純的顯示切換
     const searchToggle = document.querySelector('.search-toggle');
     const searchInput = document.querySelector('.search-input');
 
@@ -73,19 +53,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     accordionHeaders.forEach(header => {
         header.addEventListener('click', function() {
+            // 找到當前的 accordion-item
             const item = this.closest('.accordion-item');
+            // 找到這個 item 裡的 content
             const content = item.querySelector('.accordion-content');
 
+            // 切換 active class
             this.classList.toggle('active');
             content.classList.toggle('show');
 
+            // 為了實現平滑展開/收合動畫，手動設定 max-height
+            // 如果 content 展開，設定為其scrollHeight；如果收合，設定為 0
             if (content.classList.contains('show')) {
                 content.style.maxHeight = content.scrollHeight + "px";
             } else {
                 content.style.maxHeight = "0";
             }
 
-            // 關閉其他打開的手風琴項目
+            // (可選) 關閉其他已展開的手風琴項目
             accordionHeaders.forEach(otherHeader => {
                 if (otherHeader !== this) {
                     otherHeader.classList.remove('active');
@@ -98,37 +83,40 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-    // --- 聯絡表單送出功能 (如果 qa.html 有表單) ---
-    // 根據您提供的 HTML，qa.html 中沒有直接的聯絡表單，只有社群連結。
-    // 如果您未來新增了表單，可以取消註釋以下程式碼並修改。
-    /*
+    // --- 聯絡表單送出功能 ---
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault(); // 阻止表單的預設提交行為
 
+            // 在這裡可以取得表單的數據
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
 
-            console.log('表單數據:', { name, email, message });
+            // 實際情況下，你會在這裡使用 Fetch API 或 XMLHttpRequest
+            // 將這些數據發送到你的後端伺服器 (例如 PHP, Node.js, Python Flask/Django 等)
+            // 讓後端處理發送郵件等操作。
+            console.log('表單數據:', { name, email, subject, message });
 
+            // 這裡我們只顯示一個提示訊息，模擬表單送出成功
+            // 假設 showToast 函式在 cartUtils.js 中
             if (typeof showToast === 'function') {
                 showToast('您的訊息已送出，我們會盡快回覆您！', 4000);
             } else {
                 alert('您的訊息已送出，我們會盡快回覆您！');
             }
-
+            
+            // 清空表單
             contactForm.reset();
         });
     }
-    */
 
-    // --- 購物車小紅點更新 (從 cart-count.js 導入) ---
-    // 確保 updateCartCount 函式已在 cart-count.js 中定義並載入
+    // --- 購物車小紅點更新 (從 cartUtils.js 導入) ---
+    // 確保 updateCartCount 函式已在 cartUtils.js 中定義並載入
     if (typeof updateCartCount === 'function') {
         updateCartCount();
     } else {
-        console.warn("updateCartCount function not found. Please ensure cart-count.js is loaded correctly.");
+        console.warn("updateCartCount function not found. Please ensure cartUtils.js is loaded correctly.");
     }
 });
