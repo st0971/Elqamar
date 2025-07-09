@@ -1,4 +1,4 @@
-// js/idv.js
+// js/spot.js
 
 document.addEventListener('DOMContentLoaded', function() {
     // 確保 allProductsData 已經被載入並可用
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // 中止函式執行
     }
 
-    // 導覽列下拉選單功能
+    // --- 導覽列下拉選單功能 ---
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const dropbtn = dropdown.querySelector('.dropbtn');
@@ -32,6 +32,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // --- 漢堡選單功能 ---
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const mainNav = document.querySelector('.navbar nav');
+
+    if (hamburgerMenu && mainNav) {
+        hamburgerMenu.addEventListener('click', function() {
+            this.classList.toggle('active'); // 切換漢堡選單圖標的動畫
+            mainNav.classList.toggle('open'); // 切換導航選單的顯示/隱藏
+        });
+
+        // 點擊導覽列連結後收起選單 (可選)
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainNav.classList.contains('open')) {
+                    hamburgerMenu.classList.remove('active');
+                    mainNav.classList.remove('open');
+                }
+            });
+        });
+    }
+
     // --- 搜尋列功能 ---
     const searchToggle = document.querySelector('.search-toggle');
     const searchInput = document.querySelector('.search-input');
@@ -43,14 +64,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 1;
     let currentDisplayedProducts = []; // 儲存目前顯示/篩選的商品數據對象
 
-    // 定義此頁面 (第五人格) 預設顯示的商品
-    // 假設 allProductsData 中的商品會有 'tags' 或 'category' 屬性來識別
+    // 定義此頁面 (現貨商品) 預設顯示的商品
+    // 這裡假設所有 ID 為數字的商品都是現貨商品 (例如 901, 902 等)
     const initialProductsForThisPage = allProductsData.filter(product => {
-        // 這裡需要根據你的實際 allProductsData 結構來定義 '第五人格' 的判斷邏輯
-        // 例如：product.category === '第五人格' 或 product.tags.includes('第五人格')
-        // 這裡假設所有 ID 從 100 開始的商品都是第五人格預購商品
-        // 請務必調整為你實際的分類邏輯
-        return product.id >= 901 && product.id <= 999; // 示例：ID s01-s99 為現貨商品
+        return !isNaN(product.id) && parseInt(product.id) >= 901; // 示例：ID 為數字且大於等於 901 的為現貨商品
     });
 
     // 檢查初始商品是否為空，若為空則顯示提示
@@ -98,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
 
         if (lowerCaseSearchTerm !== '') {
-            // 如果有搜尋詞，從提供的數據源（通常是 allProductsData）中篩選
+            // 如果有搜尋詞，從提供的數據源（allProductsData）中篩選
             currentDisplayedProducts = dataSource.filter(product =>
                 (product.name ? product.name.toLowerCase().includes(lowerCaseSearchTerm) : false)
             );
@@ -185,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- 加入購物車功能 (假設使用 cartUtils.js 中的 addToCart 和 showToast) ---
+    // --- 加入購物車功能 (假設使用 cart-count.js 中的 addToCart 和 showToast) ---
     function attachAddToCartListeners() {
         document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
             // 先移除之前的監聽器以避免重複綁定
@@ -201,9 +218,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const productData = allProductsData.find(p => String(p.id) === String(productId));
 
         if (productData) {
-            // 呼叫 cartUtils.js 中的 addToCart 函式
+            // 呼叫 cart-count.js 中的 addToCart 函式
             if (addToCart(productId, quantity, productData)) {
-                // 呼叫 cartUtils.js 中的 showToast 函式
+                // 呼叫 cart-count.js 中的 showToast 函式
                 showToast('商品已加入購物車！');
             } else {
                 showToast('無法加入購物車，請稍後再試。', 5000);
@@ -218,6 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始載入：渲染此頁面預設的商品並設定分頁
     filterAndRenderProducts('', initialProductsForThisPage);
 
-    // 頁面載入時更新購物車小紅點 (假設 updateCartCount 在 cartUtils.js 中)
+    // 頁面載入時更新購物車小紅點 (假設 updateCartCount 在 cart-count.js 中)
     updateCartCount();
 });

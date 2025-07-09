@@ -1,4 +1,4 @@
-// js/qa.js
+// js/notice.js
 
 document.addEventListener('DOMContentLoaded', function() {
     // --- 導覽列下拉選單功能 ---
@@ -66,63 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-
-    // --- FAQ 手風琴功能 ---
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            const item = this.closest('.accordion-item');
-            const content = item.querySelector('.accordion-content');
-
-            this.classList.toggle('active');
-            content.classList.toggle('show');
-
-            if (content.classList.contains('show')) {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } else {
-                content.style.maxHeight = "0";
-            }
-
-            // 關閉其他打開的手風琴項目
-            accordionHeaders.forEach(otherHeader => {
-                if (otherHeader !== this) {
-                    otherHeader.classList.remove('active');
-                    const otherContent = otherHeader.closest('.accordion-item').querySelector('.accordion-content');
-                    otherContent.classList.remove('show');
-                    otherContent.style.maxHeight = "0";
-                }
-            });
-        });
-    });
-
-
-    // --- 聯絡表單送出功能 (如果 qa.html 有表單) ---
-    // 根據您提供的 HTML，qa.html 中沒有直接的聯絡表單，只有社群連結。
-    // 如果您未來新增了表單，可以取消註釋以下程式碼並修改。
-    /*
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // 阻止表單的預設提交行為
-
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            console.log('表單數據:', { name, email, message });
-
-            if (typeof showToast === 'function') {
-                showToast('您的訊息已送出，我們會盡快回覆您！', 4000);
-            } else {
-                alert('您的訊息已送出，我們會盡快回覆您！');
-            }
-
-            contactForm.reset();
-        });
-    }
-    */
 
     // --- 購物車小紅點更新 (從 cart-count.js 導入) ---
     // 確保 updateCartCount 函式已在 cart-count.js 中定義並載入
