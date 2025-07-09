@@ -199,24 +199,20 @@ body {
 }
 
 .product-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    width: 220px; /* 電腦版固定寬度 */
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    display: flex; /* 讓內容垂直排列 */
-    flex-direction: column;
-    justify-content: space-between; /* 內容上下撐開 */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 220px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .product-card img {
-    width: 100%; /* 圖片佔滿卡片寬度 */
-    height: auto; /* 保持圖片比例 */
-    border-radius: 8px;
-    margin-bottom: 10px;
-    object-fit: contain; /* 確保圖片在框內完整顯示，不裁剪 */
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .product-card h3 {

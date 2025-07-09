@@ -7,21 +7,16 @@
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 16px; /* 基礎字體大小 */
 }
 
-/* --- 導覽列相關樣式 --- */
+/* 導覽列顏色 */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; /* 使用 Flexbox 佈局 */
+    justify-content: space-between; /* 左右兩邊分散對齊 */
+    align-items: center; /* 垂直置中對齊 */
     background-color: #7896ac;
     color: white;
     padding: 10px 20px;
-    position: relative;
-    z-index: 100;
-    /* 確保導覽列內容在小螢幕上可以換行 */
-    flex-wrap: wrap; /* 新增或確認此行 */
 }
 
 .navbar-left,
@@ -40,15 +35,13 @@ body {
 }
 
 .navbar nav ul {
-    list-style: none;
-    display: flex; /* 桌面版水平排列 */
-    margin: 0;
+    list-style: none; /* 移除列表符號 */
 }
 
 .navbar nav ul li {
-    display: inline-block;
+    display: inline-block; /* 讓選單項目水平排列 */
     margin-right: 20px;
-    position: relative;
+    position: relative; /* 為了下拉選單定位 */
 }
 
 .navbar nav ul li:last-child {
@@ -64,23 +57,23 @@ body {
 }
 
 .navbar nav ul li a:hover {
-    color: #542d13;
+    color: #542d13; /* 懸停時的顏色 */
 }
 
 /* 下拉選單樣式 */
 .dropdown-content {
-    display: none;
+    display: none; /* 預設隱藏 */
     position: absolute;
     background-color: #7896ac;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    top: 100%;
+    z-index: 1; /* 確保在其他內容之上 */
+    top: 100%; /* 位於父元素下方 */
     left: 0;
 }
 
 .dropdown-content a {
-    color: white; /* 下拉選單文字也應為白色 */
+    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -88,14 +81,11 @@ body {
 }
 
 .dropdown-content a:hover {
-    color: #542d13;
-    background-color: #ddd;
+    color: #542d13; /* 懸停時的文字顏色 */
+    background-color: #ddd; /* 維持背景顏色不變或您想要的顏色 */
 }
 
-.dropdown-content.show {
-    display: block;
-}
-
+/* 當滑鼠懸停在 .dropdown 類別上時顯示下拉選單 */
 .dropdown:hover .dropdown-content {
     display: block;
 }
@@ -123,14 +113,21 @@ body {
 .navbar-right .icon-link img {
     width: 24px; /* 圖標大小 */
     height: 24px;
-    vertical-align: middle;
+    vertical-align: middle; /* 垂直對齊 */
 }
 
 .navbar-right .icon-link:first-child {
     margin-left: 0;
 }
+/* JavaScript 控制顯示隱藏時，移除 .dropdown:hover .dropdown-content */
+/* .dropdown:hover .dropdown-content {
+    display: block;
+} */
 
-/* 搜尋框樣式 */
+.dropdown-content.show { 
+    display: block;
+}
+/* 搜尋 */
 .search-container {
     display: flex;
     align-items: center;
@@ -155,159 +152,201 @@ body {
     border: none;
     pointer-events: none;
 }
-
-/* --- 輪播區 --- */
+/* 輪播區 */
 .carousel {
-    position: relative;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    background-color: #c7d6e2;
+  position: relative;
+  width: 100%;
+  height: 300px; /* 你可以改為 400px 或其他 */
+  overflow: hidden;
+  background-color: #c7d6e2;
 }
 
 .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    height: 100%;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
 }
 
 .carousel-track img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(255, 255, 255, 0.6);
-    border: none;
-    font-size: 24px;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 2;
-    color: #542d13;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  color: #542d13;
 }
 
 .carousel-btn.prev {
-    left: 10px;
+  left: 10px;
 }
 
 .carousel-btn.next {
-    right: 10px;
+  right: 10px;
 }
 
-/* --- 通用按鈕樣式 --- */
+
+.carousel-image.active {
+  display: block;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.6);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  color: #542d13;
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+
 .btn {
-    background-color: #fee985;
-    color: #542d13;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-decoration: none;
+  background-color: #fee985;
+  color: #542d13;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
 }
 
 .btn:hover {
-    background-color: #e5c0a3;
+  background-color: #e5c0a3;
 }
 
-/* --- 精選商品區 --- */
+/* 精選商品區 */
 .product-section {
-    padding: 40px 20px;
-    background-color: #f9f9f9;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
 }
 
 .product-section h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #542d13;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #542d13;
 }
 
 .product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 桌面版：4 欄 */
-    gap: 20px;
-    justify-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 欄 */
+  gap: 20px;
+  justify-items: center;
 }
 
 .product-card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    width: unset; /* 移除固定寬度 */
-    max-width: 100%;
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 220px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .product-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .product-card h3 {
-    margin-bottom: 5px;
-    color: #333;
+  margin-bottom: 5px;
+  color: #333;
 }
 
 .product-card p {
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #542d13;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #542d13;
 }
 
-/* --- 分頁按鈕 --- */
+/* 選頁 */
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .page-btn {
-    background-color: #fee985;
-    color: #542d13;
-    border: none;
-    margin: 0 5px;
-    padding: 8px 16px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  background-color: #fee985;
+  color: #542d13;
+  border: none;
+  margin: 0 5px;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .page-btn:hover,
 .page-btn.active {
-    background-color: #e5c0a3;
-}
-/* 手機版變成上下排列 */
-@media (max-width: 768px) {
-  .left-text,
-  .right-text {
-    width: 100%;
-  }
-}
-/* --- 頁尾 --- */
-.footer {
-    background-color: #7896ac;
-    color: white;
-    text-align: center;
-    padding: 20px 10px;
-    margin-top: 0px;
+  background-color: #e5c0a3;
 }
 
-/* --- 提示框樣式 --- */
+
+/* 頁尾 */
+.footer {
+  background-color: #7896ac;
+  color: white;
+  text-align: center;
+  padding: 20px 10px;
+  margin-top: 0px;
+}
+/* 購物車 */
+/* index.css 或 product.css (在文件末尾新增) */
+
+/* 購物車數量提示 */
+.cart-icon-wrapper {
+    position: relative;
+    display: inline-block; /* 讓 span 定位在 img 上 */
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px; /* 調整位置 */
+    right: -8px; /* 調整位置 */
+    background-color: #e26666; /* 紅色背景 */
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%; /* 圓形 */
+    padding: 2px 6px;
+    min-width: 20px; /* 確保單個數字也是圓形 */
+    text-align: center;
+    line-height: 1.2;
+    pointer-events: none; /* 讓點擊穿透到下面的購物車圖示 */
+    display: none; /* 預設隱藏，有商品時才顯示 */
+}
+
+/* 提示框樣式 */
 .toast-notification {
-    visibility: hidden;
+    visibility: hidden; /* 預設隱藏 */
     min-width: 250px;
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
@@ -315,7 +354,7 @@ body {
     border-radius: 5px;
     padding: 16px;
     position: fixed;
-    z-index: 1000;
+    z-index: 1000; /* 確保在最上層 */
     left: 50%;
     bottom: 30px;
     transform: translateX(-50%);
@@ -328,20 +367,19 @@ body {
     visibility: visible;
     opacity: 1;
 }
-
-/* --- IG/FB 圖示樣式 --- */
+/* IGFB */
 .icon-link {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .icon-link img {
-    width: 24px;
-    vertical-align: middle;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    cursor: pointer;
+  width: 24px;
+  vertical-align: middle;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
 }
 
 .icon-link img:hover {
-    transform: scale(1.15);
-    filter: brightness(1.2);
+  transform: scale(1.15);      /* 放大 */
+  filter: brightness(1.2);     /* 變亮 */
 }
