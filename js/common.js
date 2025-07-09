@@ -56,30 +56,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- 漢堡選單功能 (新增) ---
-    const hamburgerMenu = document.getElementById('hamburgerMenu');
-    const mainNav = document.getElementById('mainNav'); // 導覽列的 <nav> 元素
+    // --- 漢堡選單功能 ---
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const mainNav = document.querySelector('.navbar nav');
 
     if (hamburgerMenu && mainNav) {
         hamburgerMenu.addEventListener('click', function() {
-            mainNav.classList.toggle('open');
-            // 如果漢堡選單打開，關閉所有下拉選單
-            if (mainNav.classList.contains('open')) {
-                dropdowns.forEach(dropdown => {
-                    dropdown.querySelector('.dropdown-content').classList.remove('show');
-                });
-            }
+            this.classList.toggle('active'); // 切換漢堡選單圖標的動畫
+            mainNav.classList.toggle('open'); // 切換導航選單的顯示/隱藏
         });
 
-        // 點擊導覽列連結時關閉漢堡選單 (可選)
+        // 點擊導覽列連結後收起選單 (可選)
         mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function() {
-                if (mainNav.classList.contains('open')) {
-                    mainNav.classList.remove('open');
-                }
+            link.addEventListener('click', () => {
+                hamburgerMenu.classList.remove('active');
+                mainNav.classList.remove('open');
             });
         });
     }
+
 
     // 確保 cart-count.js 中的 updateCartCount 和 showToast 函式可用
     // 如果您將它們移入 common.js，這裡就不需要再特別檢查
