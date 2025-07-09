@@ -10,17 +10,58 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return; // 中止函式執行
     }
+    
 
-    // 導覽列下拉選單功能
+        // --- 導覽列漢堡選單功能 ---
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const navLinks = document.querySelector('.navbar nav'); // 選擇 nav 元素本身
+
+    if (hamburgerMenu && navLinks) {
+        hamburgerMenu.addEventListener('click', function() {
+            navLinks.classList.toggle('active'); // 切換 nav 元素的 active class
+            hamburgerMenu.classList.toggle('active'); // 為漢堡選單圖示添加動畫 class
+        });
+
+        // 點擊導覽列連結後收起選單
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            });
+        });
+    }
+
+    // 將下拉選單的點擊邏輯調整，使其在手機版也能正常收放
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         const dropbtn = dropdown.querySelector('.dropbtn');
         const dropdownContent = dropdown.querySelector('.dropdown-content');
 
         dropbtn.addEventListener('click', function (event) {
-            event.preventDefault();
+            event.preventDefault(); // 阻止連結的預設行為
             dropdownContent.classList.toggle('show');
+            // 如果點擊下拉按鈕時，導覽列沒有展開，也應該展開
+            if (!navLinks.classList.contains('active')) {
+                navLinks.classList.add('active');
+                hamburgerMenu.classList.add('active');
+            }
         });
+    });
+
+    window.addEventListener('click', function (event) {
+        // 如果點擊的不是下拉按鈕、也不是下拉選單內容，且不是漢堡選單、也不是導覽列本身
+        if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content') &&
+            !event.target.closest('.hamburger-menu') && !event.target.closest('.navbar nav')) {
+            dropdowns.forEach(dropdown => {
+                const dropdownContent = dropdown.querySelector('.dropdown-content');
+                dropdownContent.classList.remove('show');
+            });
+            // 點擊外面也收起漢堡選單
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            }
+        }
     });
 
     window.addEventListener('click', function (event) {
@@ -47,33 +88,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const initialProductsForThisPage = allProductsData.filter(product => product.id >= 1 && product.id <= 12);
 
     // Event listeners for search toggle and input
+    // Event listeners for search toggle and input
     if (searchToggle && searchInput) {
         searchToggle.addEventListener('click', function (e) {
             e.preventDefault();
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
+            // 將這裡的 classList.toggle('hidden') 改為 classList.toggle('active')
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
                 searchInput.focus();
             } else {
                 searchInput.value = '';
-                // 當搜尋框隱藏時，恢復顯示首頁預設的商品
+                // 當搜尋框收起時，恢復顯示首頁預設的商品
                 filterAndRenderProducts('', initialProductsForThisPage);
             }
         });
 
         window.addEventListener('click', function (event) {
-            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('hidden');
+            if (!event.target.closest('.search-container') && searchInput.classList.contains('active')) {
+                // 將這裡的 classList.add('hidden') 改為 classList.remove('active')
+                searchInput.classList.remove('active');
                 searchInput.value = '';
                 // 當點擊搜尋框外部時，恢復顯示首頁預設的商品
                 filterAndRenderProducts('', initialProductsForThisPage);
             }
         });
 
-        // 搜尋輸入事件監聽器
-        // 在首頁進行搜尋時，搜尋範圍是全站商品 (allProductsData)
-        searchInput.addEventListener('input', () => {
-            filterAndRenderProducts(searchInput.value, allProductsData); // 使用 allProducts 變數
-        });
+        // ... (searchInput.addEventListener('input', ...)) ...
     }
 
     // Function to filter products and then render them with pagination
