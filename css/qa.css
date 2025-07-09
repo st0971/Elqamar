@@ -1,37 +1,38 @@
 /* css/qa.css */
-/* 基本重置 */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+/* 基本重置 (已移至 common.css) */
+/* html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+} */
 
-.carousel,
+/* 確保主要內容區塊能彈性伸縮 (已移至 common.css) */
+/* .carousel,
 .product-section,
 .product-detail {
-  flex: 1 0 auto;
-}
+    flex: 1 0 auto;
+} */
 
-/* 導覽列顏色 */
-.navbar {
-    display: flex; /* 使用 Flexbox 佈局 */
-    justify-content: space-between; /* 左右兩邊分散對齊 */
-    align-items: center; /* 垂直置中對齊 */
+/* 導覽列顏色 (已移至 common.css) */
+/* .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #7896ac;
     color: white;
     padding: 10px 20px;
 }
 
 .navbar-right img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
 .navbar-left,
@@ -50,21 +51,21 @@ body {
 }
 
 .navbar nav ul {
-    list-style: none; /* 移除列表符號 */
+    list-style: none;
 }
 
 .navbar nav ul li {
-  display: inline-block;
-  margin-right: 20px;
-  position: relative; /* 為了下拉選單定位 */
+    display: inline-block;
+    margin-right: 20px;
+    position: relative;
 }
 
 .navbar nav ul li:last-child {
-  margin-right: 0;
-}
+    margin-right: 0;
+} */
 
-/* 導覽列文字樣式 */
-.navbar nav ul li a {
+/* 導覽列文字樣式 (已移至 common.css) */
+/* .navbar nav ul li a {
     color: white;
     text-decoration: none;
     padding: 8px 0;
@@ -72,18 +73,18 @@ body {
 }
 
 .navbar nav ul li a:hover {
-    color: #542d13; /* 懸停時的顏色 */
-}
+    color: #542d13;
+} */
 
-/* 下拉選單樣式 */
-.dropdown-content {
-    display: none; /* 預設隱藏 */
+/* 下拉選單樣式 (已移至 common.css) */
+/* .dropdown-content {
+    display: none;
     position: absolute;
     background-color: #7896ac;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1; /* 確保在其他內容之上 */
-    top: 100%; /* 位於父元素下方 */
+    z-index: 1;
+    top: 100%;
     left: 0;
 }
 
@@ -96,17 +97,17 @@ body {
 }
 
 .dropdown-content a:hover {
-    color: #542d13; /* 懸停時的文字顏色 */
-    background-color: #ddd; /* 維持背景顏色不變或您想要的顏色 */
-}
+    color: #542d13;
+    background-color: #ddd;
+} */
 
-/* 當滑鼠懸停在 .dropdown 類別上時顯示下拉選單 */
-.dropdown:hover .dropdown-content {
+/* 當滑鼠懸停在 .dropdown 類別上時顯示下拉選單 (已移至 common.css) */
+/* .dropdown:hover .dropdown-content {
     display: block;
-}
+} */
 
-/* 下拉選單箭頭圖標樣式 */
-.arrow {
+/* 下拉選單箭頭圖標樣式 (已移至 common.css) */
+/* .arrow {
     border: solid white;
     border-width: 0 2px 2px 0;
     display: inline-block;
@@ -118,33 +119,31 @@ body {
 .down {
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
-}
+} */
 
-/* 右側圖標樣式 */
-.navbar-right .icon-link {
+/* 右側圖標樣式 (已移至 common.css) */
+/* .navbar-right .icon-link {
     margin-left: 20px;
 }
 
 .navbar-right .icon-link img {
-    width: 24px; /* 圖標大小 */
+    width: 24px;
     height: 24px;
-    vertical-align: middle; /* 垂直對齊 */
+    vertical-align: middle;
 }
 
 .navbar-right .icon-link:first-child {
     margin-left: 0;
-}
-/* JavaScript 控制顯示隱藏時，移除 .dropdown:hover .dropdown-content */
-/* .dropdown:hover .dropdown-content {
+} */
+
+/* JavaScript 控制顯示隱藏時，移除 .dropdown:hover .dropdown-content (已移至 common.css) */
+/* .dropdown-content.show {
     display: block;
 } */
 
-.dropdown-content.show { 
-    display: block;
-}
 /* 主要容器佈局 */
 .qa-container {
-    max-width: 960px; /* 根據你的整體網站佈局調整 */
+    max-width: 960px;
     margin: 40px auto;
     padding: 0 20px;
     background-color: #fff;
@@ -154,7 +153,7 @@ body {
 
 .qa-container h1 {
     text-align: center;
-    color: #542d13; /* 深棕色，與你的品牌色調一致 */
+    color: #542d13;
     padding-top: 30px;
     margin-bottom: 30px;
     font-size: 2.2em;
@@ -167,7 +166,7 @@ body {
 
 /* 區塊標題 */
 .faq-section h2, .contact-us-section h2 {
-    color: #7896ac; /* 藍灰色，作為次要標題色 */
+    color: #7896ac;
     text-align: center;
     margin-bottom: 25px;
     font-size: 1.8em;
@@ -178,12 +177,12 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-bottom: 10px;
-    overflow: hidden; /* 確保內容在隱藏時被裁剪 */
+    overflow: hidden;
 }
 
 .accordion-header {
-    background-color: #f8f8f8; /* 淺灰色背景 */
-    color: #542d13; /* 深棕色文字 */
+    background-color: #f8f8f8;
+    color: #542d13;
     padding: 15px 20px;
     width: 100%;
     text-align: left;
@@ -199,36 +198,32 @@ body {
 }
 
 .accordion-header:hover {
-    background-color: #e0e0e0; /* 懸停時背景色變深 */
+    background-color: #e0e0e0;
 }
 
 .accordion-header.active {
-    background-color: #e5c0a3; /* 點擊後變色，與按鈕懸停色相近 */
+    background-color: #e5c0a3;
 }
 
 .accordion-icon {
     font-size: 0.8em;
-    transition: transform 0.3s ease; /* 箭頭旋轉動畫 */
+    transition: transform 0.3s ease;
 }
 
 .accordion-header.active .accordion-icon {
-    transform: rotate(180deg); /* 點擊後箭頭向上 */
+    transform: rotate(180deg);
 }
 
 .accordion-content {
-    padding: 0 20px; /* 預設 padding 為 0，內容隱藏 */
+    padding: 0 20px;
     background-color: #fff;
-    max-height: 0; /* 預設隱藏，高度為 0 */
-    overflow: hidden; /* 確保溢出內容被裁剪 */
-    /* 優化過渡效果：只對 max-height 進行過渡，因為 padding 的變化比較直接，不會產生跳動 */
-    transition: max-height 0.4s ease-out; 
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
 }
 
 .accordion-content.show {
-    /* 這裡不再設定固定的 max-height，而是依靠 JavaScript 動態設置 scrollHeight */
-    /* 但是為了平滑的動畫，我們可以給一個足夠大的初始值作為 fallback，讓動畫看起來更自然 */
-    /* 實際的 max-height 會由 JavaScript 設定 */
-    padding: 15px 20px; /* 展開時的 padding */
+    padding: 15px 20px;
 }
 
 .accordion-content p {
@@ -237,7 +232,7 @@ body {
     color: #333;
 }
 .accordion-content p:last-child {
-    margin-bottom: 0; /* 移除最後一個段落的底部間距 */
+    margin-bottom: 0;
 }
 
 
@@ -258,22 +253,22 @@ body {
 }
 
 .contact-methods p strong {
-    color: #542d13; /* 突出顯示重點文字 */
+    color: #542d13;
 }
 
 .contact-methods a {
-    color: #7896ac; /* 連結顏色 */
+    color: #7896ac;
     text-decoration: none;
     font-weight: bold;
 }
 
 .contact-methods a:hover {
-    text-decoration: underline; /* 懸停時下劃線 */
+    text-decoration: underline;
 }
 
 .social-links {
     display: flex;
-    gap: 20px; /* 圖標間距 */
+    gap: 20px;
     margin-top: 10px;
 }
 
@@ -293,13 +288,13 @@ body {
 }
 
 .social-links .icon-link:hover {
-    color: #e5c0a3; /* 懸停時顏色變化 */
+    color: #e5c0a3;
 }
 
 
-/* 聯絡表單樣式 */
+/* 聯絡表單樣式 (若有聯絡表單) */
 .contact-form {
-    background-color: #f8f8f8; /* 表單背景色 */
+    background-color: #f8f8f8;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -324,22 +319,21 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box; /* 確保 padding 和 border 不會增加總寬度 */
+    box-sizing: border-box;
 }
 
 .form-group textarea {
-    resize: vertical; /* 允許垂直調整大小 */
+    resize: vertical;
     min-height: 120px;
 }
 
-.submit-btn {
+/* .submit-btn {
     width: auto;
     padding: 12px 30px;
     font-size: 1.1em;
-    /* 繼承 common.css 的 .btn 樣式 */
-}
+} */
 
-/* 響應式調整 */
+/* 響應式調整 (大部分已移至 common.css) */
 @media (max-width: 768px) {
     .qa-container {
         margin: 20px auto;
@@ -388,110 +382,111 @@ body {
         font-size: 0.95em;
         padding: 10px 12px;
     }
-    
-    .social-links {
-        flex-direction: column; /* 在小螢幕上垂直堆疊社群連結 */
+    /* 社群連結垂直堆疊在 common.css 中處理 */
+    /* .social-links {
+        flex-direction: column;
         gap: 10px;
-    }
+    } */
 }
-/* IGFB */
-.icon-link {
-  text-decoration: none;
+
+/* IGFB (已移至 common.css) */
+/* .icon-link {
+    text-decoration: none;
 }
 
 .icon-link img {
-  width: 24px;
-  vertical-align: middle;
-  transition: transform 0.3s ease, filter 0.3s ease;
-  cursor: pointer;
+    width: 24px;
+    vertical-align: middle;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
 }
 
 .icon-link img:hover {
-  transform: scale(1.15);      /* 放大 */
-  filter: brightness(1.2);     /* 變亮 */
-}
-/* 頁尾 */
-.footer {
-  margin-top: auto;
-  background-color: #7896ac;
-  color: white;
-  text-align: center;
-  padding: 20px 10px;
-}
+    transform: scale(1.15);
+    filter: brightness(1.2);
+} */
 
-/* 購物車區域 */
+/* 頁尾 (已移至 common.css) */
+/* .footer {
+    margin-top: auto;
+    background-color: #7896ac;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+} */
 
-.cart-section {
-  flex: 1 0 auto;
+/* 購物車區域 (已移至 common.css) */
+/* .cart-section {
+    flex: 1 0 auto;
 }
-    .cart-section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #542d13;
-    }
-    .cart-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-    .cart-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-    .cart-table th,
-    .cart-table td {
-      border-bottom: 1px solid #ddd;
-      text-align: center;
-      padding: 12px;
-    }
-    .cart-table th {
-      background-color: #7896ac;
-      color: white;
-    }
-    .product-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .product-info img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-    .cart-summary {
-      text-align: right;
-      font-size: 18px;
-      color: #542d13;
-    }
-    .btn {
-      background-color: #fee985;
-      color: #542d13;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .quantity-select {
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    /* cart.css (在文件末尾新增或修改) */
+.cart-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #542d13;
+}
+.cart-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.cart-table th,
+.cart-table td {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    padding: 12px;
+}
+.cart-table th {
+    background-color: #7896ac;
+    color: white;
+}
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.product-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.cart-summary {
+    text-align: right;
+    font-size: 18px;
+    color: #542d13;
+}
+.btn {
+    background-color: #fee985;
+    color: #542d13;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.quantity-select {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+} */
 
-.cart-product-link {
-    text-decoration: none; /* 移除連結下劃線 */
-    color: inherit; /* 繼承父元素的顏色 */
-    display: flex; /* 讓圖片和文字在同一行 */
-    align-items: center; /* 垂直置中對齊 */
-    gap: 10px; /* 圖片和文字之間的間距 */
+/* cart.css (在文件末尾新增或修改) (已移至 common.css) */
+/* .cart-product-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .cart-product-link:hover {
-    color: #542d13; /* 懸停時的顏色，與導覽列保持一致 */
-}
+    color: #542d13;
+} */

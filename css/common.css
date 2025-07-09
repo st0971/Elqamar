@@ -7,6 +7,7 @@ html, body {
     padding: 0;
     font-family: 'Noto Sans TC', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* 考慮通用字體或引入 Google Fonts */
     color: #333;
+    line-height: 1.5; /* 增加行高以提高可讀性 */
 }
 
 body {
@@ -15,12 +16,15 @@ body {
     min-height: 100vh;
 }
 
-.carousel,
+/* 確保所有主要內容區塊都能彈性伸縮 */
+.carousel-container,
 .product-section,
-.product-detail,
+.product-detail-container, /* 商品詳情頁的主容器 */
 .qa-container,
-.cart-section { /* 確保所有主要內容區塊都能彈性伸縮 */
+.cart-section,
+.notice-container { /* 新增交易須知容器 */
     flex: 1 0 auto;
+    padding: 20px; /* 提供預設 padding */
 }
 
 /* 導覽列 */
@@ -51,11 +55,12 @@ body {
 
 /* 預設隱藏漢堡選單按鈕 */
 .hamburger-menu {
-    display: none;
+    display: none; /* 預設在桌面版隱藏 */
     cursor: pointer;
     font-size: 30px;
     color: white;
     order: 1; /* 調整順序，讓漢堡選單在手機版時優先顯示 */
+    padding: 5px; /* 增加點擊範圍 */
 }
 
 .hamburger-menu.active .bar:nth-child(1) {
@@ -260,9 +265,19 @@ body {
     margin-top: 0px; /* 確保與 body 的 flex 設置配合 */
 }
 
+.footer .icon-link {
+    color: white; /* 頁尾連結文字顏色 */
+    display: inline-flex; /* 讓圖片和文字在同一行 */
+    align-items: center;
+    margin: 0 5px;
+    text-decoration: none;
+}
+
 .footer .icon-link img {
     width: 20px; /* 頁尾圖標稍小 */
     height: 20px;
+    margin-right: 3px;
+    vertical-align: middle;
 }
 
 /* 提示框樣式 */
@@ -289,7 +304,255 @@ body {
     opacity: 1;
 }
 
-/* --- RWD 媒體查詢 --- */
+/* 商品網格（適用於 product.css 和 spot.css） */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 自動調整為 250px 的最小寬度 */
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 內容在垂直方向上平均分佈 */
+    padding-bottom: 15px; /* 為按鈕留出空間 */
+}
+
+.product-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* 讓連結佔據整個圖片區域 */
+}
+
+.product-card img {
+    max-width: 100%;
+    height: 200px; /* 固定圖片高度 */
+    object-fit: cover; /* 裁剪圖片以填充容器 */
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-card h3 {
+    font-size: 1.2em;
+    color: #542d13;
+    margin: 10px 10px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 超出部分顯示省略號 */
+}
+
+.product-card p {
+    font-size: 1.1em;
+    color: #7896ac;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.product-card .btn {
+    align-self: center; /* 按鈕在卡片中置中 */
+    width: calc(100% - 30px); /* 讓按鈕寬度適中 */
+    max-width: 180px; /* 限制最大寬度 */
+}
+
+/* 分頁器 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    gap: 10px;
+    flex-wrap: wrap; /* 允許分頁按鈕換行 */
+}
+
+.pagination .page-btn {
+    background-color: #f0f0f0;
+    color: #542d13;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .page-btn:hover {
+    background-color: #e5c0a3;
+    color: white;
+}
+
+.pagination .page-btn.active {
+    background-color: #7896ac;
+    color: white;
+    border-color: #7896ac;
+    font-weight: bold;
+}
+
+/* 購物車頁面樣式 */
+.cart-section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cart-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #542d13;
+}
+
+.cart-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 新增表格滾動包裝器 */
+.cart-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* 更好的滾動體驗 */
+    margin-bottom: 20px; /* 與下方元素間距 */
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* 確保在小螢幕下有最小寬度，以啟用滾動 */
+    min-width: 600px;
+}
+
+.cart-table th,
+.cart-table td {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+    padding: 12px;
+    vertical-align: middle; /* 垂直置中內容 */
+}
+
+.cart-table th {
+    background-color: #7896ac;
+    color: white;
+    white-space: nowrap; /* 防止表頭文字換行 */
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left; /* 讓商品資訊靠左 */
+}
+
+.product-info img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    flex-shrink: 0; /* 防止圖片在小螢幕下被壓縮 */
+}
+
+.cart-product-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    word-break: break-word; /* 允許長文字換行 */
+}
+
+.cart-product-link:hover {
+    color: #542d13;
+}
+
+.quantity-select {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    min-width: 50px; /* 確保選擇框不會太窄 */
+}
+
+.remove-btn {
+    background-color: #e54c3c; /* 紅色 */
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #cc3d2e;
+}
+
+.cart-summary {
+    text-align: right;
+    font-size: 18px;
+    color: #542d13;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.cart-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px; /* 按鈕間距 */
+}
+
+/* 交易須知頁面樣式 */
+.notice-container {
+    max-width: 960px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.notice-container h1 {
+    text-align: center;
+    color: #542d13;
+    padding-top: 30px;
+    margin-bottom: 30px;
+    font-size: 2.2em;
+}
+
+.notice-section {
+    margin-bottom: 30px;
+}
+
+.notice-section h2 {
+    color: #7896ac;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 5px;
+}
+
+.notice-section ul {
+    list-style: disc; /* 使用圓點列表 */
+    margin-left: 20px;
+    padding-left: 0;
+}
+
+.notice-section li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* RWD 媒體查詢 */
 
 /* 小型平板和大型手機 (例如: iPad 直立, 手機橫向) */
 @media (max-width: 992px) {
@@ -319,19 +582,48 @@ body {
         gap: 10px;
     }
 
-    /* 確保 product-grid 在較小螢幕下變為 3 欄 */
-    .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自動調整為 200px 的最小寬度 */
-        gap: 15px;
-    }
-
-    .product-card {
-        width: auto; /* 讓卡片寬度由 grid 自動控制 */
+    .carousel-container {
         padding: 10px;
     }
 
-    .product-image img {
+    .product-section, .product-detail-container, .qa-container, .cart-section, .notice-container {
+        padding: 15px;
+        margin: 20px auto; /* 確保內容區塊在小螢幕上也有居中效果 */
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自動調整為 200px 的最小寬度 */
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .product-card {
+        padding: 10px;
+    }
+
+    .product-card img {
+        height: 180px;
+    }
+
+    .product-detail .product-image img {
         max-width: 90%; /* 商品詳情圖片在平板上稍小 */
+    }
+
+    .cart-table {
+        min-width: 550px; /* 調整購物車表格最小寬度 */
+    }
+
+    .notice-container {
+        margin: 20px auto;
+        padding: 0 15px;
+    }
+
+    .notice-container h1 {
+        font-size: 2em;
+    }
+
+    .notice-section h2 {
+        font-size: 1.6em;
     }
 }
 
@@ -423,6 +715,10 @@ body {
         margin-right: 10px;
     }
 
+    .carousel-container {
+        height: 180px; /* 手機輪播圖高度 */
+    }
+
     .product-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* 手機上可能只有 2 欄 */
         gap: 10px;
@@ -431,6 +727,10 @@ body {
 
     .product-card {
         padding: 8px;
+    }
+
+    .product-card img {
+        height: 150px; /* 手機上商品卡片圖片更小 */
     }
 
     .product-card h3 {
@@ -447,11 +747,15 @@ body {
     }
 
     /* 商品詳情頁調整 */
+    .product-detail-container {
+        padding: 20px 15px;
+    }
+
     .product-wrapper {
         flex-direction: column; /* 垂直堆疊 */
         align-items: center;
         gap: 20px;
-        padding: 0 15px;
+        padding: 0;
     }
 
     .product-image img {
@@ -508,9 +812,13 @@ body {
     }
 
     /* 購物車頁面調整 */
+    .cart-section {
+        padding: 20px 10px;
+    }
+
     .cart-container {
         padding: 15px;
-        margin: 20px 10px;
+        margin: 0 auto;
     }
 
     .cart-table th, .cart-table td {
@@ -523,15 +831,6 @@ body {
         height: 40px;
     }
 
-    /* 小螢幕下，表格可能需要水平滾動 */
-    .cart-table-wrapper { /* 新增一個包裝器來處理滾動 */
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* 更好的滾動體驗 */
-    }
-    .cart-table {
-        min-width: 500px; /* 確保表格在小螢幕下有最小寬度 */
-    }
-
     .cart-summary {
         font-size: 16px;
         text-align: center; /* 小螢幕下置中 */
@@ -541,6 +840,35 @@ body {
     .cart-actions {
         flex-direction: column; /* 按鈕垂直堆疊 */
         gap: 10px;
+    }
+
+    .btn { /* 確保所有按鈕在小螢幕下有適當的寬度 */
+        width: 100%;
+        max-width: 250px; /* 限制最大寬度 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* 交易須知頁面調整 */
+    .notice-container {
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    .notice-container h1 {
+        font-size: 1.8em;
+    }
+
+    .notice-section h2 {
+        font-size: 1.5em;
+    }
+
+    .notice-section ul {
+        margin-left: 15px;
+    }
+
+    .notice-section li {
+        font-size: 0.95em;
     }
 }
 
@@ -584,6 +912,10 @@ body {
         font-size: 9px;
     }
 
+    .carousel-container {
+        height: 150px; /* 超小型手機輪播圖高度 */
+    }
+
     .product-grid {
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* 更小的手機兩欄 */
         padding: 0 5px;
@@ -591,6 +923,10 @@ body {
 
     .product-card {
         padding: 5px;
+    }
+
+    .product-card img {
+        height: 120px; /* 超小型手機圖片更小 */
     }
 
     .product-card h3 {
@@ -616,5 +952,26 @@ body {
 
     .qa-container h1 {
         font-size: 1.8em;
+    }
+
+    .cart-table {
+        min-width: 400px; /* 超小型手機表格最小寬度 */
+    }
+
+    .cart-table th, .cart-table td {
+        padding: 6px;
+        font-size: 0.85em;
+    }
+
+    .notice-container h1 {
+        font-size: 1.6em;
+    }
+
+    .notice-section h2 {
+        font-size: 1.3em;
+    }
+
+    .notice-section li {
+        font-size: 0.9em;
     }
 }
