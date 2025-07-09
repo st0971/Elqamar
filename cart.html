@@ -1,86 +1,64 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>購物車 - Elqamar</title>
-    <link rel="stylesheet" href="css/cart.css">
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
-    <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elqamar—購物車</title>
+  <link rel="stylesheet" href="css/cart.css" />
+  <link rel="stylesheet" href="css/common.css" />
 </head>
 <body>
-    <header class="navbar">
-        <div class="navbar-left">
-            <a href="index.html" class="logo">Elqamar</a>
-            <div class="hamburger-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="index.html" class="logo">Elqamar</a>
+      <nav>
+        <ul>
+          <li><a href="index.html">首頁</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
+            <div class="dropdown-content">
+              <a href="idv.html">第五人格</a>
+              <a href="#"></a>
+              <a href="#"></a>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="idv.html">第五人格</a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </li>
-                    <li><a href="spot.html">現貨商品</a></li>
-                    <li><a href="notice.html">交易須知</a></li>
-                    <li><a href="qa.html">Q&A</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="navbar-right">
-            <div class="search-container">
-                <input type="text" class="search-input hidden" placeholder="搜尋商品...">
-                <a href="#" class="icon-link search-toggle"><img src="images/search.png" alt="搜尋"></a>
-            </div>
-            <a href="cart.html" class="icon-link cart-icon-wrapper">
-                <img src="images/cart.png" alt="購物車">
-                <span class="cart-count">0</span>
-            </a>
-            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
-                <img src="images/ig.png" alt="IG">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
-                <img src="images/fb.png" alt="FB">
-            </a>
-        </div>
-    </header>
+          </li>
+          <li><a href="spot.html">現貨商品</a></li>
+          <li><a href="notice.html">交易須知</a></li>
+          <li><a href="qa.html">Q&A</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="navbar-right">
+      <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link"><img src="images/ig.png" alt="IG"></a>
+      <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link"><img src="images/fb.png" alt="FB"></a>
+    </div>
+  </header>
 
-    <main class="cart-section">
-        <h2>我的購物車</h2>
-        <div class="cart-container">
-            <div class="cart-table-wrapper"> <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th>商品</th>
-                            <th>價格</th>
-                            <th>數量</th>
-                            <th>小計</th>
-                            <th>移除</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cart-items-container">
-                        </tbody>
-                </table>
-            </div> <div class="cart-summary">
-                總計：$<span id="cart-total">0.00</span>
-            </div>
+  <section class="cart-section">
+    <h2>此為試算處</h2>
+    <div class="cart-container">
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>商品</th>
+            <th>單價</th>
+            <th>數量</th>
+            <th>小計</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody class="cart-tbody">
+          </tbody>
+      </table>
 
-            <div class="cart-actions">
-                <a href="index.html" class="btn continue-shopping">繼續購物</a>
-                <button class="btn checkout-btn" id="checkout-button">前往結帳</button>
-            </div>
-        </div>
-    </main>
+      <div class="cart-summary">
+        <p>總計：<span class="total-price">$0</span></p>
+        <button class="btn checkout-btn">前往結帳</button>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
+  <footer class="footer">
         <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
                 <img src="images/ig.png" alt="IG">
             </a>
@@ -89,10 +67,9 @@
             </a></p>
     </footer>
 
-    <div id="toast-notification" class="toast-notification"></div>
+  <div id="toast-notification" class="toast-notification"></div>
 
-    <script src="js/allProductsData.js"></script>
-    <script src="js/cart-count.js"></script>
-    <script src="js/cart.js"></script>
+  <script src="js/allProductsData.js"></script>
+  <script src="js/cart.js"></script>
 </body>
 </html>

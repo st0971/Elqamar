@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elqamar | 首頁</title>
+    <title>Elqamar</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/common.css">
     <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
@@ -13,11 +13,6 @@
     <header class="navbar">
         <div class="navbar-left">
             <a href="index.html" class="logo">Elqamar</a>
-            <div class="hamburger-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
             <nav>
                 <ul>
                     <li><a href="index.html">首頁</a></li>
@@ -53,27 +48,22 @@
         </div>
     </header>
 
-    <main>
-        <section class="carousel-container">
-            <div class="carousel">
-                <div class="carousel-slide">
-                    <img src="images/無結帳.png" alt="Carousel Image 1">
-                </div>
-                <div class="carousel-slide">
-                    <img src="images/限時開團.png" alt="Carousel Image 2">
-                </div>
-            </div>
-            <button class="prev-button">&lt;</button>
-            <button class="next-button">&gt;</button>
-            <div class="carousel-dots"></div>
-        </section>
+    <section class="carousel">
+        <div class="carousel-track">
+            <img src="images/無結帳.png" alt="輪播1" />
+            <img src="images/限時開團.png" alt="輪播2" />
+            <!-- <img src="images/samplephoto.png" alt="輪播3" /> -->
+        </div>
+        <button class="carousel-btn prev">&#10094;</button>
+        <button class="carousel-btn next">&#10095;</button>
+    </section>
 
-        <section class="product-section">
-            <h2>熱門商品</h2>
-            <div class="product-grid">
-                </div>
-        </section>
-    </main>
+    <section class="product-section">
+        <h2>限時開團</h2> 
+        <div class="product-grid"></div>
+    </section>
+
+    <div class="pagination"></div>
 
     <footer class="footer">
         <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
@@ -89,5 +79,5 @@
     <script src="js/allProductsData.js"></script>
     <script src="js/cart-count.js"></script>
     <script src="js/index.js"></script>
-</body>
+    </body>
 </html>
