@@ -3,27 +3,27 @@
 // 將 allProductsData 賦值給 window 物件，使其成為全域可用的變數
 window.allProductsData = [
     // 來自 indexData 的商品 (預購商品)
-    {
-        id: 1,
-        name: '家庭教師晨間準備',
-        price: 1200,
-        img: 'images/家教晨起徽章.jpg',
-        description: '選款：不可\n商品：馬口鐵徽章\n出品方：1010(日網)\n材質：馬口鐵\n尺寸：約56mm\n隱藏款：無'
-    },
-    {
-        id: 2,
-        name: '家庭教師晨間準備',
-        price: 135,
-        img: 'images/家教晨起小卡.avif',
-        description: '選款：不可(一入兩張)\n商品：小卡\n出品方：1010(日網)\n材質：PP\n尺寸：約H89×W63×D1mm\n隱藏款：無'
-    },
-    {
-        id: 3,
-        name: '家庭教師晨間準備',
-        price: 1800,
-        img: 'images/家教晨起掛件.jpg',
-        description: '選款：可\n商品：馬口鐵徽章\n出品方：1010(日網)\n材質：壓克力/鐵\n尺寸：約H68×W68×D3mm\n隱藏款：無'
-    },
+    // {
+    //     id: 1,
+    //     name: '家庭教師晨間準備',
+    //     price: 1200,
+    //     img: 'images/家教晨起徽章.jpg',
+    //     description: '選款：不可\n商品：馬口鐵徽章\n出品方：1010(日網)\n材質：馬口鐵\n尺寸：約56mm\n隱藏款：無'
+    // },
+    // {
+    //     id: 2,
+    //     name: '家庭教師晨間準備',
+    //     price: 135,
+    //     img: 'images/家教晨起小卡.avif',
+    //     description: '選款：不可(一入兩張)\n商品：小卡\n出品方：1010(日網)\n材質：PP\n尺寸：約H89×W63×D1mm\n隱藏款：無'
+    // },
+    // {
+    //     id: 3,
+    //     name: '家庭教師晨間準備',
+    //     price: 1800,
+    //     img: 'images/家教晨起掛件.jpg',
+    //     description: '選款：可\n商品：馬口鐵徽章\n出品方：1010(日網)\n材質：壓克力/鐵\n尺寸：約H68×W68×D3mm\n隱藏款：無'
+    // },
     // ... 可以根據需要添加更多預購商品
 
     // 來自 第五人格 的商品 
