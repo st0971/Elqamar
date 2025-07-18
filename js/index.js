@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const productsForCurrentPage = productsToDisplay.slice(start, end);
 
         if (productsForCurrentPage.length === 0) {
-            productGrid.innerHTML = '<p>找不到符合條件的商品</p>';
+            productGrid.innerHTML = '<p>暫無商品</p>';
             return;
         }
 
