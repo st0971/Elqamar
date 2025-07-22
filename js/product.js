@@ -18,6 +18,23 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('product-description').innerHTML = product.description.replace(/\n/g, '<br>');
         document.getElementById('product-price').textContent = `價格：$${product.price}`;
 
+        // 動態生成數量選單
+        const qtySelect = document.getElementById('quantity-select');
+        qtySelect.innerHTML = "";
+
+        if (product.stock > 0) {
+            for (let i = 1; i <= product.stock; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                qtySelect.appendChild(option);
+            }
+        } else {
+            qtySelect.innerHTML = '<option value="0">無庫存</option>';
+            document.getElementById('add-to-cart-btn').disabled = true;
+            document.getElementById('add-to-cart-btn').textContent = '已售完';
+        }
+
         // 設定加入購物車按鈕的 data-id 屬性
         const addToCartBtn = document.querySelector('.add-to-cart-btn');
         if (addToCartBtn) {
@@ -54,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
         addToCartBtn.addEventListener('click', function () {
             const idToAdd = this.dataset.id;
             const quantity = parseInt(document.getElementById('quantity-select').value, 10);
-            
+
             let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
             const existingItemIndex = cart.findIndex(item => String(item.id) === String(idToAdd));
 
@@ -77,17 +94,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // ✅ Correction: Use 'cart' instead of 'data' to save to localStorage
             localStorage.setItem("cart-A", JSON.stringify(cart));
 
-            // ✅ 改為使用 showToast（如果有的話），保持風格一致
             if (typeof showToast === 'function') {
                 showToast('商品已加入購物車！');
             } else {
                 alert('商品已加入購物車！');
             }
 
-            // 更新小紅點
             updateCartCount();
         });
     }
