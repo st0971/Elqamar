@@ -333,6 +333,15 @@ body {
     font-weight: bold;
     margin: 0 0 0.8rem;
 }
+.sold-out-label {
+    color: #f44336;
+    font-weight: bold;
+    font-size: 1em;
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #f44336;
+    border-radius: 4px;
+}
 
 /* 加入購物車按鈕 */
 .add-to-cart {

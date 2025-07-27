@@ -78,12 +78,33 @@
 }
 
 .item-quantity {
-    width: 60px;
-    padding: 5px 8px;
+    padding: 6px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    text-align: center;
+    font-size: 1em;
+    background-color: #fff;
+    cursor: pointer;
 }
+.go-shopping-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #7896AC;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+.go-shopping-btn:hover {
+    background-color: #5f7d92;
+}
+.sold-out-label {
+    color: #f44336; /* 紅色 */
+    font-weight: bold;
+    font-size: 1em;
+}
+
 
 .remove-item-btn {
     background-color: #FEE986; /* 黃色按鈕 */
