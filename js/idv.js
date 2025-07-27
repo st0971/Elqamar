@@ -184,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 生成商品卡片 HTML
     function generateProductHTML(product) {
+        const isSoldOut = product.stock === 0;
         return `
             <div class="product-card">
                 <a href="product.html?id=${product.id}">
@@ -192,11 +193,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="product-info">
                     <h3>${product.name}</h3>
                     <p>$${product.price}</p>
-                    <button class="add-to-cart" data-id="${product.id}">加入購物車</button>
+                    ${isSoldOut 
+                        ? `<span class="sold-out-label">已售完</span>` 
+                        : `<button class="add-to-cart" data-id="${product.id}">加入購物車</button>`
+                    }
                 </div>
             </div>
         `;
     }
+
 
     // 綁定加入購物車事件
     function attachAddToCartEvents() {

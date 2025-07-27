@@ -11,15 +11,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartSummaryWrapper = document.querySelector('.cart-summary-wrapper');
 
         if (cart.length === 0) {
-            // Show the empty cart message directly in the list container
-            cartItemsContainer.innerHTML = '<p class="empty-cart-message">您的購物車是空的，快去逛逛吧！</p>';
-            cartTotalElement.textContent = '0';
-            // Hide the header and summary if cart is empty
-            if (cartHeader) cartHeader.style.display = 'none';
-            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'none';
-            updateCartBadge();
-            return;
-        } else {
+                cartItemsContainer.innerHTML = `
+                    <p class="empty-cart-message">
+                    您的購物車是空的，快去逛逛吧！<br>
+                    <a href="index.html" class="go-shopping-btn">返回首頁</a>
+                    </p>
+                `;
+                cartTotalElement.textContent = '0';
+                if (cartHeader) cartHeader.style.display = 'none';
+                if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'none';
+                updateCartBadge();
+                return;
+            }
+        else {
             // Ensure header and summary are visible if cart has items
             // Using 'grid' for header as defined in CSS, 'block' or 'flex' for wrapper depending on its display type
             if (cartHeader) cartHeader.style.display = 'grid';
@@ -29,19 +33,29 @@ document.addEventListener('DOMContentLoaded', function () {
         let totalAmount = 0;
 
         cart.forEach(cartItem => {
-            // Ensure window.allProductsData is defined and accessible
             const product = window.allProductsData.find(p => p.id === cartItem.id);
-
             if (product) {
                 const itemTotalPrice = product.price * cartItem.quantity;
                 totalAmount += itemTotalPrice;
 
-                // CRITICAL FIX HERE: Wrapping values in spans and ensuring data-labels are present
-                // IMPORTANT: Wrap the image in an <a> tag pointing to product.html with product ID
+                // 判斷是否售完
+                const isSoldOut = product.stock === 0;
+
+                const quantityControlHTML = product.stock === 0
+                ? `<span class="sold-out-label">已售完</span>`
+                : `<select class="item-quantity" data-id="${product.id}">
+                        ${[...Array(product.stock).keys()].map(i => {
+                            const qty = i + 1;
+                            return `<option value="${qty}" ${qty === cartItem.quantity ? 'selected' : ''}>${qty}</option>`;
+                        }).join('')}
+                    </select>`;
+
+
                 const cartItemHTML = `
                     <div class="cart-item" data-id="${product.id}">
                         <div class="cart-item-product">
-                            <a href="product.html?id=${product.id}" class="cart-item-img-link"> <img src="${product.img}" alt="${product.name}" class="cart-item-img">
+                            <a href="product.html?id=${product.id}" class="cart-item-img-link">
+                                <img src="${product.img}" alt="${product.name}" class="cart-item-img" />
                             </a>
                             <div class="cart-item-details">
                                 <h3>${product.name}</h3>
@@ -49,12 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                         <div class="unit-price" data-label="單價"><span>$${product.price}</span></div>
                         <div class="quantity-control" data-label="數量">
-                            <select class="item-quantity" data-id="${product.id}">
-                                ${[...Array(product.stock).keys()].map(i => {
-                                    const qty = i + 1;
-                                    return `<option value="${qty}" ${qty === cartItem.quantity ? 'selected' : ''}>${qty}</option>`;
-                                }).join('')}
-                            </select>
+                            ${quantityControlHTML}
                         </div>
                         <div class="subtotal-price" data-label="小計"><span>$${itemTotalPrice}</span></div>
                         <div class="action-buttons">
@@ -62,9 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                     </div>
                 `;
+
                 cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
             }
         });
+
 
         cartTotalElement.textContent = totalAmount.toFixed(0);
         attachCartEventListeners();
