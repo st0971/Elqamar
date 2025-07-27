@@ -258,7 +258,9 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1rem;
+  box-sizing: border-box; /* ✅ 確保內邊距不會導致 overflow */
 }
+
 
 .faq-section h2,
 .contact-section h2 {
@@ -313,6 +315,8 @@ body {
   font-size: 1.05rem;
   display: none;
   line-height: 1.6;
+  box-sizing: border-box; /* ✅ 確保 padding 不會溢出寬度 */
+  overflow-wrap: break-word; /* ✅ 防止過長文字不換行 */
 }
 
 .accordion-item.active .accordion-content {
@@ -636,6 +640,10 @@ a { text-decoration: none; color: inherit; }
     }
     .product-list {
         grid-template-columns: 1fr;
+    }
+    .accordion-content {
+        padding: 1rem;
+        font-size: 1rem; /* 稍微縮小 */
     }
     
 }
