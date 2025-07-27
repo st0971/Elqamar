@@ -1,223 +1,268 @@
-// js/idv.js
+document.addEventListener('DOMContentLoaded', function () {
+    // 主要元素變數
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownParentLi = dropdownToggle.parentElement;
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 確保 allProductsData 已經被載入並可用
-    if (typeof allProductsData === 'undefined' || !Array.isArray(allProductsData) || allProductsData.length === 0) {
-        console.error("錯誤：allProductsData 未載入或為空！請檢查 allProductsData.js 檔案內容。");
-        const productGrid = document.querySelector('.product-grid');
-        if (productGrid) {
-            productGrid.innerHTML = '<p>抱歉，商品資料載入失敗或無商品可顯示。</p>';
-        }
-        return; // 中止函式執行
-    }
-
-    // 導覽列下拉選單功能
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-
-        dropbtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-    });
-
-    window.addEventListener('click', function(event) {
-        dropdowns.forEach(dropdown => {
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-    });
-
-    // --- 搜尋列功能 ---
     const searchToggle = document.querySelector('.search-toggle');
+    const searchContainer = document.querySelector('.search-container');
     const searchInput = document.querySelector('.search-input');
-    const productGrid = document.querySelector('.product-grid');
-    const paginationContainer = document.querySelector('.pagination');
-    const pageTitle = document.querySelector('.product-section h2'); // 取得頁面標題元素
+    const suggestionList = document.querySelector('.suggestion-list');
 
-    const productsPerPage = 12; // 每頁顯示 12 個商品
-    let currentPage = 1;
-    let currentDisplayedProducts = []; // 儲存目前顯示/篩選的商品數據對象
+    const cartBtn = document.querySelector('.cart-icon');
+    if (!cartBtn) {
+        console.warn("找不到 .cart-icon 元素，購物車紅點功能無法啟用");
+    }
 
-    // 定義此頁面 (第五人格) 預設顯示的商品
-    // 假設 allProductsData 中的商品會有 'tags' 或 'category' 屬性來識別
-    const initialProductsForThisPage = allProductsData.filter(product => {
-        // 這裡需要根據你的實際 allProductsData 結構來定義 '第五人格' 的判斷邏輯
-        // 例如：product.category === '第五人格' 或 product.tags.includes('第五人格')
-        // 這裡假設所有 ID 從 100 開始的商品都是第五人格預購商品
-        // 請務必調整為你實際的分類邏輯
-        return product.id >= 100 && product.id <= 199; // 示例：ID 100-199 為第五人格商品
+    // 初始下拉選單隱藏
+    dropdownParentLi.classList.remove('active');
+
+    // 漢堡選單切換
+    hamburger.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        if (!navLinks.classList.contains('active')) {
+            dropdownParentLi.classList.remove('active');
+        }
     });
 
-    // 檢查初始商品是否為空，若為空則顯示提示
-    if (initialProductsForThisPage.length === 0) {
-        if (productGrid) {
-            productGrid.innerHTML = '<p>抱歉，目前此分類暫無商品可顯示。</p>';
+    // 手機版下拉選單點擊
+    dropdownToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (window.innerWidth <= 768) {
+            dropdownParentLi.classList.toggle('active');
         }
-        if (paginationContainer) {
-            paginationContainer.style.display = 'none'; // 隱藏分頁
-        }
-    }
+    });
 
-    // 搜尋開關和輸入框事件監聽器
-    if (searchToggle && searchInput) {
-        searchToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
-                searchInput.focus();
+    // 點擊連結收起選單
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function () {
+            if (this === dropdownToggle) return;
+            if (dropdownParentLi.contains(this)) {
+                dropdownParentLi.classList.remove('active');
             } else {
-                searchInput.value = '';
-                // 當搜尋框隱藏時，恢復顯示此頁面預設的商品
-                filterAndRenderProducts('', initialProductsForThisPage);
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                dropdownParentLi.classList.remove('active');
             }
         });
+    });
 
-        window.addEventListener('click', function(event) {
-            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('hidden');
-                searchInput.value = '';
-                // 當點擊搜尋框外部時，恢復顯示此頁面預設的商品
-                filterAndRenderProducts('', initialProductsForThisPage);
-            }
-        });
+    // 點擊外部收起選單與搜尋
+    document.addEventListener('click', function (event) {
+        const isClickInsideNav = navLinks.contains(event.target) || hamburger.contains(event.target);
+        const isClickInsideSearch = searchContainer.contains(event.target) || searchToggle.contains(event.target);
 
-        // 搜尋輸入事件監聽器
-        searchInput.addEventListener('input', () => {
-            // 在此頁面進行搜尋時，搜尋範圍是全站商品 (allProductsData)
-            filterAndRenderProducts(searchInput.value, allProductsData);
-        });
-    }
+        if (!isClickInsideNav) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            dropdownParentLi.classList.remove('active');
+        }
 
-    // 篩選商品並渲染到網格，同時處理分頁
-    function filterAndRenderProducts(searchTerm, dataSource) {
-        const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+        if (!isClickInsideSearch) {
+            suggestionList.classList.add('hidden');
+            searchContainer.classList.add('hidden');
+            searchInput.value = "";
+            renderInitialProducts();
+        }
+    });
 
-        if (lowerCaseSearchTerm !== '') {
-            // 如果有搜尋詞，從提供的數據源（通常是 allProductsData）中篩選
-            currentDisplayedProducts = dataSource.filter(product =>
-                (product.name ? product.name.toLowerCase().includes(lowerCaseSearchTerm) : false)
-            );
-            // 更新頁面標題為搜尋結果
-            if (pageTitle) {
-                pageTitle.textContent = `搜尋結果："${searchTerm}"`;
-            }
+    // 螢幕尺寸改變時重設狀態
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            dropdownParentLi.classList.remove('active');
+        }
+    });
+
+    // 點擊搜尋 icon 顯示或隱藏搜尋欄
+    searchToggle.addEventListener('click', () => {
+        searchContainer.classList.toggle('hidden');
+        suggestionList.classList.add('hidden');
+        if (!searchContainer.classList.contains('hidden')) {
+            searchInput.focus();
         } else {
-            // 如果沒有搜尋詞，使用此頁面預設的商品
-            currentDisplayedProducts = dataSource;
-            // 恢復頁面原始標題
-            if (pageTitle) {
-                pageTitle.textContent = '預購商品 - 第五人格'; // 這是此頁面固定的預設標題
-            }
+            searchInput.value = "";
         }
+    });
 
-        currentPage = 1; // 篩選後重置到第一頁
-        renderProductCards(currentDisplayedProducts, currentPage);
-        setupPaginationButtons(currentDisplayedProducts);
-    }
+    // 即時搜尋功能
+    searchInput.addEventListener('input', () => {
+        const keyword = searchInput.value.trim().toLowerCase();
+        suggestionList.innerHTML = "";
 
-    // 將商品卡片渲染到網格
-    function renderProductCards(productsToDisplay, page = 1) {
-        if (!productGrid) return;
-        productGrid.innerHTML = ''; // 清空現有商品
-
-        const start = (page - 1) * productsPerPage;
-        const end = start + productsPerPage;
-        const productsForCurrentPage = productsToDisplay.slice(start, end);
-
-        if (productsForCurrentPage.length === 0) {
-            productGrid.innerHTML = '<p>找不到符合條件的商品。</p>';
+        if (keyword === "") {
+            suggestionList.classList.add('hidden');
             return;
         }
 
-        productsForCurrentPage.forEach(product => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <a href="product.html?id=${product.id}">
-                    <img src="${product.img}" alt="${product.name}">
-                </a>
-                <h3>${product.name}</h3>
-                <p>$${product.price}</p>
-                <button class="btn add-to-cart-btn" data-id="${product.id}">加入購物車</button>
-            `;
-            productGrid.appendChild(card);
-        });
-
-        // 重新綁定加入購物車按鈕的事件監聽器
-        attachAddToCartListeners();
-    }
-
-    // 設定分頁按鈕
-    function setupPaginationButtons(products) {
-        if (!paginationContainer) return;
-
-        const totalPages = Math.ceil(products.length / productsPerPage);
-        paginationContainer.innerHTML = ''; // 清空現有按鈕
-
-        if (totalPages <= 1) {
-            paginationContainer.style.display = 'none'; // 如果只有一頁或無商品，則隱藏分頁
-            return;
-        }
-
-        paginationContainer.style.display = 'flex'; // 顯示分頁
-
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.classList.add('page-btn');
-            button.dataset.page = i;
-            button.textContent = i;
-            if (i === currentPage) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                currentPage = i;
-                renderProductCards(products, currentPage);
-                // 更新按鈕的活躍狀態
-                paginationContainer.querySelectorAll('.page-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
+        const matches = window.allProductsData.filter(item => item.name.toLowerCase().includes(keyword));
+        if (matches.length > 0) {
+            matches.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+                li.addEventListener('click', () => {
+                    searchInput.value = item.name;
+                    suggestionList.classList.add('hidden');
+                    renderSearchResults(item.name);
+                });
+                suggestionList.appendChild(li);
             });
-            paginationContainer.appendChild(button);
+            suggestionList.classList.remove('hidden');
+        } else {
+            suggestionList.classList.add('hidden');
         }
-    }
+    });
 
-    // --- 加入購物車功能 (假設使用 cartUtils.js 中的 addToCart 和 showToast) ---
-    function attachAddToCartListeners() {
-        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-            // 先移除之前的監聽器以避免重複綁定
-            btn.removeEventListener('click', handleAddToCart);
-            btn.addEventListener('click', handleAddToCart);
+    // 按 Enter 搜尋
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const keyword = searchInput.value.trim();
+            if (keyword !== "") {
+                suggestionList.classList.add('hidden');
+                renderSearchResults(keyword);
+            }
+        }
+    });
+
+    // 搜尋按鈕點擊事件，綁定一次
+    const searchConfirm = document.querySelector('.search-confirm');
+    if (searchConfirm) {
+        searchConfirm.addEventListener('click', () => {
+            const keyword = searchInput.value.trim();
+            if (keyword !== "") {
+                suggestionList.classList.add('hidden');
+                renderSearchResults(keyword);
+            }
         });
     }
 
-    function handleAddToCart(e) {
-        const productId = e.currentTarget.dataset.id;
-        const quantity = 1; // 從商品列表頁加入購物車預設數量為 1
+    // 商品渲染（ID 101~105）
+    function renderInitialProducts() {
+    const productContainer = document.getElementById('productList');
+    const title = document.getElementById('productSectionTitle');
+    if (!productContainer || !title) return;
 
-        const productData = allProductsData.find(p => String(p.id) === String(productId));
+    const products = window.allProductsData.filter(item => [101, 102, 103, 104, 105].includes(item.id));
 
-        if (productData) {
-            // 呼叫 cartUtils.js 中的 addToCart 函式
-            if (addToCart(productId, quantity, productData)) {
-                // 呼叫 cartUtils.js 中的 showToast 函式
-                showToast('商品已加入購物車！');
-            } else {
-                showToast('無法加入購物車，請稍後再試。', 5000);
-            }
+    title.textContent = "預購商品-第五人格";
+
+    if (products.length > 0) {
+        productContainer.innerHTML = products.map(generateProductHTML).join('');
+    } else {
+        productContainer.innerHTML = `<div class="no-products">暫無商品</div>`;
+    }
+
+    attachAddToCartEvents();
+}
+
+
+    // 搜尋結果渲染
+    function renderSearchResults(keyword) {
+    const results = window.allProductsData.filter(item =>
+        item.name.toLowerCase().includes(keyword.toLowerCase())
+    );
+
+    const productContainer = document.getElementById('productList');
+    const title = document.getElementById('productSectionTitle');
+    if (!productContainer || !title) return;
+
+    title.textContent = `搜尋結果：「${keyword}」`;
+
+    if (results.length > 0) {
+        productContainer.innerHTML = results.map(generateProductHTML).join('');
+    } else {
+        productContainer.innerHTML = `<p class="no-products">暫無商品</p>`;
+    }
+
+    attachAddToCartEvents();
+}
+
+
+    // 生成商品卡片 HTML
+    function generateProductHTML(product) {
+        return `
+            <div class="product-card">
+                <a href="product.html?id=${product.id}">
+                    <img src="${product.img}" alt="${product.name}" class="product-img" />
+                </a>
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                    <button class="add-to-cart" data-id="${product.id}">加入購物車</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // 綁定加入購物車事件
+    function attachAddToCartEvents() {
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const productId = parseInt(btn.getAttribute('data-id'));
+                addToCart(productId);
+                showToast("已加入購物車！");
+                showCartDot();
+            });
+        });
+    }
+
+    // 加入購物車邏輯（localStorage）
+    function addToCart(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            existing.quantity++;
         } else {
-            console.error('商品資料未找到，ID:', productId);
-            showToast('無法將商品加入購物車：商品資料不存在！', 5000);
+            cart.push({ id: productId, quantity: 1 });
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartBadge();
+    }
+
+    // 更新購物車紅點
+    function updateCartBadge() {
+        if (!cartBtn) return;
+        const badge = cartBtn.querySelector('.cart-badge');
+        if (!badge) return;
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (totalCount > 0) {
+            badge.textContent = totalCount;
+            cartBtn.classList.add('has-items');
+        } else {
+            badge.textContent = 0;
+            cartBtn.classList.remove('has-items');
         }
     }
 
-    // --- 頁面載入時的初始化 ---
-    // 初始載入：渲染此頁面預設的商品並設定分頁
-    filterAndRenderProducts('', initialProductsForThisPage);
+    // 顯示提示訊息
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
-    // 頁面載入時更新購物車小紅點 (假設 updateCartCount 在 cartUtils.js 中)
-    updateCartCount();
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
+    }
+
+    // 顯示購物車紅點 (初始化呼叫)
+    function showCartDot() {
+        updateCartBadge();
+    }
+
+    // 初始化呼叫
+    renderInitialProducts();
+    updateCartBadge();
 });

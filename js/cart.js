@@ -1,116 +1,165 @@
-// cart.js
+document.addEventListener('DOMContentLoaded', function () {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotalElement = document.getElementById('cartTotal');
 
-// 提示框顯示函數 (如果購物車頁面也可能需要顯示提示，例如結帳失敗，則可以保留)
-function showToast(message) {
-    const toast = document.getElementById('toast-notification');
-    if (toast) {
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000); // 3 秒後自動消失
-    }
-}
+    // Function to render cart items
+    function renderCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartItemsContainer.innerHTML = ''; // Clear existing items
 
-document.addEventListener('DOMContentLoaded', () => {
-    // 移除了對 updateCartCount() 的呼叫，因為此頁面不再需要顯示購物車數量
-    // updateCartCount(); // 這一行被移除了
+        const cartHeader = document.querySelector('.cart-header');
+        const cartSummaryWrapper = document.querySelector('.cart-summary-wrapper');
 
-    // 導覽列下拉選單 (保持不變)
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-        dropbtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-    });
-    window.addEventListener('click', function (event) {
-        dropdowns.forEach(dropdown => {
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
-                if (dropdownContent.classList.contains('show')) {
-                    dropdownContent.classList.remove('show');
-                }
+        if (cart.length === 0) {
+            // Show the empty cart message directly in the list container
+            cartItemsContainer.innerHTML = '<p class="empty-cart-message">您的購物車是空的，快去逛逛吧！</p>';
+            cartTotalElement.textContent = '0';
+            // Hide the header and summary if cart is empty
+            if (cartHeader) cartHeader.style.display = 'none';
+            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'none';
+            updateCartBadge();
+            return;
+        } else {
+            // Ensure header and summary are visible if cart has items
+            // Using 'grid' for header as defined in CSS, 'block' or 'flex' for wrapper depending on its display type
+            if (cartHeader) cartHeader.style.display = 'grid';
+            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'block'; // Or 'flex' if it's a flex container
+        }
+
+        let totalAmount = 0;
+
+        cart.forEach(cartItem => {
+            // Ensure window.allProductsData is defined and accessible
+            const product = window.allProductsData.find(p => p.id === cartItem.id);
+
+            if (product) {
+                const itemTotalPrice = product.price * cartItem.quantity;
+                totalAmount += itemTotalPrice;
+
+                // CRITICAL FIX HERE: Wrapping values in spans and ensuring data-labels are present
+                // IMPORTANT: Wrap the image in an <a> tag pointing to product.html with product ID
+                const cartItemHTML = `
+                    <div class="cart-item" data-id="${product.id}">
+                        <div class="cart-item-product">
+                            <a href="product.html?id=${product.id}" class="cart-item-img-link"> <img src="${product.img}" alt="${product.name}" class="cart-item-img">
+                            </a>
+                            <div class="cart-item-details">
+                                <h3>${product.name}</h3>
+                            </div>
+                        </div>
+                        <div class="unit-price" data-label="單價"><span>$${product.price}</span></div>
+                        <div class="quantity-control" data-label="數量">
+                            <select class="item-quantity" data-id="${product.id}">
+                                ${[...Array(product.stock).keys()].map(i => {
+                                    const qty = i + 1;
+                                    return `<option value="${qty}" ${qty === cartItem.quantity ? 'selected' : ''}>${qty}</option>`;
+                                }).join('')}
+                            </select>
+                        </div>
+                        <div class="subtotal-price" data-label="小計"><span>$${itemTotalPrice}</span></div>
+                        <div class="action-buttons">
+                            <button class="remove-item-btn" data-id="${product.id}">刪除</button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
             }
         });
-    });
 
-
-    const cartTableBody = document.querySelector('.cart-tbody');
-    if (!cartTableBody) return;
-
-    const totalPriceEl = document.querySelector('.total-price');
-    const checkoutBtn = document.querySelector('.checkout-btn');
-
-    let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
-
-    function renderCart() {
-        cartTableBody.innerHTML = '';
-
-        if (cart.length === 0) {
-            cartTableBody.innerHTML = `<tr><td colspan="5">購物車是空的</td></tr>`;
-            totalPriceEl.textContent = '$0';
-            return;
-        }
-
-        let total = 0;
-
-        cart.forEach(item => {
-            const subtotal = item.price * item.quantity;
-            total += subtotal;
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="product-info">
-                    <a href="product.html?id=${item.id}" class="cart-product-link">
-                        <img src="${item.img}" alt="${item.name}" />
-                        <span>${item.name}</span>
-                    </a>
-                </td>
-                <td class="unit-price" data-price="${item.price}">$${item.price}</td>
-                <td>
-                    <select class="quantity-select">
-                        ${[...Array(10).keys()].map(i => {
-                            const val = i + 1;
-                            return `<option value="${val}" ${val === item.quantity ? 'selected' : ''}>${val}</option>`;
-                        }).join('')}
-                    </select>
-                </td>
-                <td class="subtotal">$${subtotal}</td>
-                <td><button class="btn remove-btn" data-id="${item.id}">刪除</button></td>
-            `;
-
-            // 數量變更事件
-            tr.querySelector('.quantity-select').addEventListener('change', e => {
-                const newQty = parseInt(e.target.value);
-                item.quantity = newQty;
-                localStorage.setItem('cart-A', JSON.stringify(cart));
-                renderCart(); // 重新渲染以更新小計和總計
-            });
-
-            // 刪除事件
-            tr.querySelector('.remove-btn').addEventListener('click', e => {
-                const productIdToRemove = e.target.dataset.id;
-                cart = cart.filter(i => i.id !== productIdToRemove);
-                localStorage.setItem('cart-A', JSON.stringify(cart));
-                renderCart(); // 重新渲染
-            });
-
-            cartTableBody.appendChild(tr);
-        });
-
-        totalPriceEl.textContent = `$${total}`;
+        cartTotalElement.textContent = totalAmount.toFixed(0);
+        attachCartEventListeners();
+        updateCartBadge();
     }
 
-    renderCart(); // 初始渲染購物車
+    // Function to attach event listeners for quantity changes and removal
+    function attachCartEventListeners() {
+        document.querySelectorAll('.item-quantity').forEach(input => {
+            input.addEventListener('change', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                const newQuantity = parseInt(this.value);
+                updateCartQuantity(productId, newQuantity);
+            });
+        });
 
-    checkoutBtn.addEventListener('click', () => {
-        if (cart.length === 0) {
-            alert('購物車是空的');
-            return;
+        document.querySelectorAll('.remove-item-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                removeFromCart(productId);
+            });
+        });
+    }
+
+    // Function to update item quantity in localStorage
+    function updateCartQuantity(productId, newQuantity) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === productId);
+
+        if (itemIndex > -1) {
+            const product = window.allProductsData.find(p => p.id === productId);
+            if (!product) return;
+
+            if (newQuantity > product.stock) {
+                cart[itemIndex].quantity = product.stock;
+                showToast(`數量已達庫存上限（${product.stock}）`);
+            } else if (newQuantity > 0) {
+                cart[itemIndex].quantity = newQuantity;
+                showToast("購物車已更新！");
+            } else {
+                cart.splice(itemIndex, 1);
+                showToast("商品已從購物車移除！");
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
         }
-        alert('請前往IG、FB喊單');
-    });
+
+    }
+
+    // Function to remove item from cart
+    function removeFromCart(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== productId);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart(); // Re-render cart to update display and total
+        showToast("商品已從購物車移除！");
+    }
+
+    // Function to update the cart badge (copied from index.js for consistency)
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
+
+        if (badge) {
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
+            } else {
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
+            }
+        }
+    }
+
+    // Function to display toast messages (copied from index.js for consistency)
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
+    }
+
+    // Initial render of the cart when the page loads
+    renderCart();
+    updateCartBadge();
 });

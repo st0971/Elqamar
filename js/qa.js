@@ -1,122 +1,239 @@
-// js/qa.js
+// == 完整購物車與紅點邏輯 JS ==
+document.addEventListener('DOMContentLoaded', function () {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotalElement = document.getElementById('cartTotal');
+    
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
 
-document.addEventListener('DOMContentLoaded', function() {
-    // --- 導覽列下拉選單功能 (從 index.js 或 common.js 複製過來，確保每個頁面都有此功能) ---
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-
-        dropbtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-    });
-
-    window.addEventListener('click', function(event) {
-        dropdowns.forEach(dropdown => {
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-    });
-
-    // --- 搜尋列功能 (僅用於切換顯示/隱藏，實際搜尋行為不在 Q&A 頁面進行) ---
-    // Q&A 頁面的搜尋列通常不進行商品搜尋，只是單純的顯示切換
-    const searchToggle = document.querySelector('.search-toggle');
-    const searchInput = document.querySelector('.search-input');
-
-    if (searchToggle && searchInput) {
-        searchToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
-                searchInput.focus();
-            } else {
-                searchInput.value = ''; // 清空搜尋框內容
-            }
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
         });
 
-        // 點擊搜尋框外區域時隱藏搜尋框
-        window.addEventListener('click', function(event) {
-            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('hidden');
-                searchInput.value = '';
-            }
-        });
-    }
-
-
-    // --- FAQ 手風琴功能 ---
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', function() {
-            // 找到當前的 accordion-item
-            const item = this.closest('.accordion-item');
-            // 找到這個 item 裡的 content
-            const content = item.querySelector('.accordion-content');
-
-            // 切換 active class
-            this.classList.toggle('active');
-            content.classList.toggle('show');
-
-            // 為了實現平滑展開/收合動畫，手動設定 max-height
-            // 如果 content 展開，設定為其scrollHeight；如果收合，設定為 0
-            if (content.classList.contains('show')) {
-                content.style.maxHeight = content.scrollHeight + "px";
-            } else {
-                content.style.maxHeight = "0";
-            }
-
-            // (可選) 關閉其他已展開的手風琴項目
-            accordionHeaders.forEach(otherHeader => {
-                if (otherHeader !== this) {
-                    otherHeader.classList.remove('active');
-                    const otherContent = otherHeader.closest('.accordion-item').querySelector('.accordion-content');
-                    otherContent.classList.remove('show');
-                    otherContent.style.maxHeight = "0";
+        // Optional: Close hamburger menu when a nav link is clicked (unless it's a dropdown toggle)
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (!link.classList.contains('dropdown-toggle')) {
+                    // Close the main nav if a regular link is clicked
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
                 }
             });
         });
+    }
+
+    // --- NEW: Dropdown Menu Toggle for Mobile ---
+    // Select all dropdown toggles (e.g., "預購商品▼")
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (event) => {
+            // Prevent the default link behavior (e.g., navigating to an empty href)
+            event.preventDefault();
+
+            // Find the parent <li> of the clicked toggle
+            const parentLi = toggle.closest('li');
+
+            if (parentLi) {
+                // Optional: Close other open dropdowns if they exist within the same navLinks container
+                navLinks.querySelectorAll('li').forEach(item => {
+                    if (item !== parentLi && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Toggle the 'active' class on the parent <li>
+                parentLi.classList.toggle('active');
+            }
+        });
     });
 
+    // Optional: Close dropdowns if clicked outside the navigation
+    document.addEventListener('click', (event) => {
+        // If the click is not inside the navLinks area and not on the hamburger button
+        if (!event.target.closest('.nav-links') && !event.target.closest('.hamburger')) {
+            document.querySelectorAll('.nav-links li.active').forEach(item => {
+                item.classList.remove('active'); // Close all active dropdowns
+            });
+        }
+    });
 
-    // --- 聯絡表單送出功能 ---
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // 阻止表單的預設提交行為
+    if (!cartItemsContainer || !cartTotalElement) {
+        updateCartBadge(); // 至少紅點仍可作用
+        return;
+    }
 
-            // 在這裡可以取得表單的數據
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
+    // 以下繼續執行購物車渲染與監聽
 
-            // 實際情況下，你會在這裡使用 Fetch API 或 XMLHttpRequest
-            // 將這些數據發送到你的後端伺服器 (例如 PHP, Node.js, Python Flask/Django 等)
-            // 讓後端處理發送郵件等操作。
-            console.log('表單數據:', { name, email, subject, message });
+    // 初始化購物車
+    renderCart();
+    updateCartBadge();
 
-            // 這裡我們只顯示一個提示訊息，模擬表單送出成功
-            // 假設 showToast 函式在 cartUtils.js 中
-            if (typeof showToast === 'function') {
-                showToast('您的訊息已送出，我們會盡快回覆您！', 4000);
-            } else {
-                alert('您的訊息已送出，我們會盡快回覆您！');
+    // 渲染購物車內容
+    function renderCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartItemsContainer.innerHTML = '';
+
+        const cartHeader = document.querySelector('.cart-header');
+        const cartSummaryWrapper = document.querySelector('.cart-summary-wrapper');
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart-message">您的購物車是空的，快去逛逛吧！</p>';
+            cartTotalElement.textContent = '0';
+            if (cartHeader) cartHeader.style.display = 'none';
+            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'none';
+            updateCartBadge();
+            return;
+        } else {
+            if (cartHeader) cartHeader.style.display = 'grid';
+            if (cartSummaryWrapper) cartSummaryWrapper.style.display = 'block';
+        }
+
+        let totalAmount = 0;
+
+        cart.forEach(cartItem => {
+            const product = window.allProductsData.find(p => p.id === cartItem.id);
+            if (product) {
+                const itemTotalPrice = product.price * cartItem.quantity;
+                totalAmount += itemTotalPrice;
+
+                const cartItemHTML = `
+                    <div class="cart-item" data-id="${product.id}">
+                        <div class="cart-item-product">
+                            <a href="product.html?id=${product.id}" class="cart-item-img-link">
+                                <img src="${product.img}" alt="${product.name}" class="cart-item-img">
+                            </a>
+                            <div class="cart-item-details">
+                                <h3>${product.name}</h3>
+                            </div>
+                        </div>
+                        <div class="unit-price" data-label="單價"><span>$${product.price}</span></div>
+                        <div class="quantity-control" data-label="數量">
+                            <input type="number" class="item-quantity" value="${cartItem.quantity}" min="1" data-id="${product.id}">
+                        </div>
+                        <div class="subtotal-price" data-label="小計"><span>$${itemTotalPrice}</span></div>
+                        <div class="action-buttons">
+                            <button class="remove-item-btn" data-id="${product.id}">刪除</button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.insertAdjacentHTML('beforeend', cartItemHTML);
             }
-            
-            // 清空表單
-            contactForm.reset();
+        });
+
+        cartTotalElement.textContent = totalAmount.toFixed(0);
+        attachCartEventListeners();
+        updateCartBadge();
+    }
+
+    function attachCartEventListeners() {
+        document.querySelectorAll('.item-quantity').forEach(input => {
+            input.addEventListener('change', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                const newQuantity = parseInt(this.value);
+                updateCartQuantity(productId, newQuantity);
+            });
+        });
+
+        document.querySelectorAll('.remove-item-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = parseInt(this.getAttribute('data-id'));
+                removeFromCart(productId);
+            });
         });
     }
 
-    // --- 購物車小紅點更新 (從 cartUtils.js 導入) ---
-    // 確保 updateCartCount 函式已在 cartUtils.js 中定義並載入
-    if (typeof updateCartCount === 'function') {
-        updateCartCount();
-    } else {
-        console.warn("updateCartCount function not found. Please ensure cartUtils.js is loaded correctly.");
+    function updateCartQuantity(productId, newQuantity) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const itemIndex = cart.findIndex(item => item.id === productId);
+
+        if (itemIndex > -1) {
+            if (newQuantity > 0) {
+                cart[itemIndex].quantity = newQuantity;
+            } else {
+                cart.splice(itemIndex, 1);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart();
+            showToast("購物車已更新！");
+        }
     }
+
+    function removeFromCart(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(item => item.id !== productId);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+        showToast("商品已從購物車移除！");
+    }
+
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
+
+        if (badge) {
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
+            } else {
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
+            }
+        }
+    }
+
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
+    }
+
+    // 提供外部使用（例如加入商品按鈕）
+    window.addToCart = function(productId, quantity = 1) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const index = cart.findIndex(item => item.id === productId);
+
+        if (index > -1) {
+            cart[index].quantity += quantity;
+        } else {
+            cart.push({ id: productId, quantity });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartBadge();
+        showToast("已加入購物車");
+    };
 });
+
+const accordionButtons = document.querySelectorAll('.accordion-button');
+
+  accordionButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const currentItem = button.parentElement;
+      const isActive = currentItem.classList.contains('active');
+
+      // 關閉所有手風琴
+      document.querySelectorAll('.accordion-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      // 如果原本不是 active，就開啟它
+      if (!isActive) {
+        currentItem.classList.add('active');
+      }
+    });
+  });

@@ -93,34 +93,6 @@ window.allProductsData = [
         description: '商品：zero系列雙閃徽章',
         stock: 1
     },
-    // {
-    //     id: 902,
-    //     name: '第五人格魔幻魅影',
-    //     price: 730,
-    //     img: 'images/第五魔幻特殊徽章.png',
-    //     description: '選款：不可，單抽95$\n商品：馬口鐵徽章盲盒—特別版\n出品方：分子互動(淘寶)\n材質：馬口鐵\n尺寸：約50*80mm\n隱藏款：有'
-    // },
-    // {
-    //     id: 903,
-    //     name: '第五人格魔幻魅影',
-    //     price: 95,
-    //     img: 'images/第五魔幻掛件.png',
-    //     description: '選款：可\n商品：壓克力掛件\n出品方：分子互動(淘寶)\n材質：壓克力\n尺寸：約72*50mm\n隱藏款：無'
-    // },
-    // {
-    //     id: 904,
-    //     name: '第五人格魔幻魅影',
-    //     price: 580,
-    //     img: 'images/第五魔幻透卡.png',
-    //     description: '選款：不可，單抽75$\n商品：透卡盲盒\n出品方：分子互動(淘寶)\n材質：PET\n尺寸：約100*140mm\n隱藏款：無'
-    // },
-    // {
-    //     id: 905,
-    //     name: '第五人格魔幻魅影',
-    //     price: 60,
-    //     img: 'images/第五魔幻拍立得.png',
-    //     description: '選款：可\n商品：偽拍立得\n出品方：分子互動(淘寶)\n材質：紙\n尺寸：約86*108mm\n隱藏款：無'
-    // },
     // ... 可以根據需要添加更多分類商品
 ];
 // console.log(allProductsData); // 這行現在可有可無，因為已經掛載到 window 上

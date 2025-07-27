@@ -1,108 +1,106 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // 確認 allProductsData 已載入
-    if (typeof allProductsData === 'undefined') {
-        console.error("allProductsData.js not loaded!");
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+    const product = window.allProductsData.find(p => p.id === productId);
+    const detailContainer = document.getElementById('productDetail');
+
+    if (!product) {
+        detailContainer.innerHTML = "<p>找不到此商品。</p>";
         return;
     }
+    if (product.stock === 0) {
+    detailContainer.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" class="product-detail-img" /> 
+        <div class="product-info">
+            <h1>${product.name}</h1>
+            <p class="price">價格：$${product.price}</p>
+            <p style="color: red; font-weight: bold;">此商品已售完</p>
+        </div>
+        <div class="product-description-section">
+            <h2>商品說明</h2>
+            <p>${(product.description || '這是商品的詳細描述。').replace(/\n/g, '<br>')}</p>
+        </div>
+    `;
+    return;
+}
 
-    // 取得網址參數中的商品 ID
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
 
-    // 找到對應商品
-    const product = allProductsData.find(p => String(p.id) === String(productId));
+    // 將商品圖片從 product.html 中移除的連結邏輯修正，這裡圖片不應連結到首頁
+    detailContainer.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" class="product-detail-img" /> 
+        <div class="product-info">
+            <h1>${product.name}</h1>
+            <p class="price">價格：$${product.price}</p>
+            <div class="form-group">
+                <label for="quantity">數量：</label>
+                <select id="quantity">
+                    ${[...Array(product.stock).keys()].map(i => `<option value="${i+1}">${i+1}</option>`).join('')}
+                </select>
+                <button id="addToCart">加入購物車</button>
+            </div>
+        </div>
+        <div class="product-description-section">
+            <h2>商品說明</h2>
+            <p>${(product.description || '這是商品的詳細描述。').replace(/\n/g, '<br>')}</p>
+        </div>
+    `;
 
-    if (product) {
-        document.getElementById('product-name').textContent = product.name;
-        document.getElementById('product-img').src = product.img;
-        document.getElementById('product-description').innerHTML = product.description.replace(/\n/g, '<br>');
-        document.getElementById('product-price').textContent = `價格：$${product.price}`;
 
-        // 動態生成數量選單
-        const qtySelect = document.getElementById('quantity-select');
-        qtySelect.innerHTML = "";
+    document.getElementById('addToCart').addEventListener('click', () => {
+        const quantity = parseInt(document.getElementById('quantity').value);
+        addToCart(product.id, quantity);
+        showToast("已加入購物車！"); // 顯示 toast 訊息
+        updateCartBadge(); // 更新購物車小紅點
+    });
 
-        if (product.stock > 0) {
-            for (let i = 1; i <= product.stock; i++) {
-                const option = document.createElement('option');
-                option.value = i;
-                option.textContent = i;
-                qtySelect.appendChild(option);
-            }
+    function addToCart(productId, qty) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+            existing.quantity += qty;
         } else {
-            qtySelect.innerHTML = '<option value="0">無庫存</option>';
-            document.getElementById('add-to-cart-btn').disabled = true;
-            document.getElementById('add-to-cart-btn').textContent = '已售完';
+            cart.push({ id: productId, quantity: qty });
         }
-
-        // 設定加入購物車按鈕的 data-id 屬性
-        const addToCartBtn = document.querySelector('.add-to-cart-btn');
-        if (addToCartBtn) {
-            addToCartBtn.dataset.id = product.id;
-        }
-
-        document.title = `${product.name} - 商品頁`;
-    } else {
-        document.getElementById('product-name').textContent = '查無此商品';
-        document.title = '查無此商品 - 商品頁';
-        return; // 停止執行後續
+        localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    // 更新購物車小紅點函式
-    function updateCartCount() {
-        const cartCountElem = document.querySelector('.cart-count');
-        let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
-        let totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    // --- 確保這些函數在 product.js 中存在 ---
 
-        if (totalQuantity > 0) {
-            cartCountElem.textContent = totalQuantity > 99 ? '99+' : totalQuantity;
-            cartCountElem.style.display = 'inline-block';
-        } else {
-            cartCountElem.style.display = 'none';
-        }
+    // 顯示 toast 訊息的函數
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
     }
 
-    // 頁面一載入就更新小紅點
-    updateCartCount();
+    // 更新購物車小紅點的函數
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
 
-    // 加入購物車按鈕事件
-    const addToCartBtn = document.querySelector('.add-to-cart-btn');
-    if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function () {
-            const idToAdd = this.dataset.id;
-            const quantity = parseInt(document.getElementById('quantity-select').value, 10);
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
 
-            let cart = JSON.parse(localStorage.getItem('cart-A')) || [];
-            const existingItemIndex = cart.findIndex(item => String(item.id) === String(idToAdd));
-
-            if (existingItemIndex > -1) {
-                cart[existingItemIndex].quantity += quantity;
+        if (badge) {
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
             } else {
-                const productDetails = allProductsData.find(p => String(p.id) === String(idToAdd));
-                if (productDetails) {
-                    cart.push({
-                        id: String(idToAdd),
-                        name: productDetails.name,
-                        price: productDetails.price,
-                        img: productDetails.img,
-                        quantity: quantity
-                    });
-                } else {
-                    console.error('Product data not found for ID:', idToAdd);
-                    alert('無法將商品加入購物車：商品資料不存在！');
-                    return;
-                }
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
             }
-
-            localStorage.setItem("cart-A", JSON.stringify(cart));
-
-            if (typeof showToast === 'function') {
-                showToast('商品已加入購物車！');
-            } else {
-                alert('商品已加入購物車！');
-            }
-
-            updateCartCount();
-        });
+        }
     }
+
+    // 頁面加載時也更新一次購物車小紅點，確保初始狀態正確
+    updateCartBadge();
 });

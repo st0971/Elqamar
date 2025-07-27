@@ -1,249 +1,317 @@
-// js/index.js
-
 document.addEventListener('DOMContentLoaded', function () {
-    // 確保 allProductsData 已經被載入並可用
-    if (typeof allProductsData === 'undefined' || !Array.isArray(allProductsData) || allProductsData.length === 0) {
-        console.error("錯誤：allProductsData 未載入或為空！請檢查 allProductsData.js 檔案內容。");
-        const productGrid = document.querySelector('.product-grid');
-        if (productGrid) {
-            productGrid.innerHTML = '<p>抱歉，商品資料載入失敗或無商品可顯示。</p>';
-        }
-        return; // 中止函式執行
-    }
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdownParentLi = dropdownToggle.parentElement;
 
-    // 導覽列下拉選單功能
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const dropbtn = dropdown.querySelector('.dropbtn');
-        const dropdownContent = dropdown.querySelector('.dropdown-content');
-
-        dropbtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            dropdownContent.classList.toggle('show');
-        });
-    });
-
-    window.addEventListener('click', function (event) {
-        dropdowns.forEach(dropdown => {
-            const dropdownContent = dropdown.querySelector('.dropdown-content');
-            if (!event.target.matches('.dropbtn') && !event.target.closest('.dropdown-content')) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-    });
-
-    // --- 搜尋列功能 ---
     const searchToggle = document.querySelector('.search-toggle');
+    const searchContainer = document.querySelector('.search-container');
     const searchInput = document.querySelector('.search-input');
-    const productGrid = document.querySelector('.product-grid');
-    const paginationContainer = document.querySelector('.pagination');
-    const pageTitle = document.querySelector('.product-section h2'); // 取得首頁標題元素
+    const suggestionList = document.querySelector('.suggestion-list');
+    const searchConfirm = document.querySelector('.search-confirm');
 
-    const productsPerPage = 12;
-    let currentPage = 1;
-    let currentDisplayedProducts = []; // 儲存目前顯示/篩選的商品數據對象
+    const cartBtn = document.querySelector('.cart-icon'); // ← 修正選擇器
 
-    // 定義 index 頁面專屬的商品 (例如：從 allProductsData 中 ID 1-12 的商品，假設這些是「限時開團」商品)
-    const initialProductsForThisPage = allProductsData.filter(product => product.id >= 1 && product.id <= 12);
+    // ✅ 初始隱藏手機版選單
+    dropdownParentLi.classList.remove('active');
 
-    // Event listeners for search toggle and input
-    if (searchToggle && searchInput) {
-        searchToggle.addEventListener('click', function (e) {
-            e.preventDefault();
-            searchInput.classList.toggle('hidden');
-            if (!searchInput.classList.contains('hidden')) {
-                searchInput.focus();
-            } else {
-                searchInput.value = '';
-                // 當搜尋框隱藏時，恢復顯示首頁預設的商品
-                filterAndRenderProducts('', initialProductsForThisPage);
-            }
-        });
-
-        window.addEventListener('click', function (event) {
-            if (!event.target.closest('.search-container') && !searchInput.classList.contains('hidden')) {
-                searchInput.classList.add('hidden');
-                searchInput.value = '';
-                // 當點擊搜尋框外部時，恢復顯示首頁預設的商品
-                filterAndRenderProducts('', initialProductsForThisPage);
-            }
-        });
-
-        // 搜尋輸入事件監聽器
-        // 在首頁進行搜尋時，搜尋範圍是全站商品 (allProductsData)
-        searchInput.addEventListener('input', () => {
-            filterAndRenderProducts(searchInput.value, allProductsData); // 使用 allProducts 變數
-        });
-    }
-
-    // Function to filter products and then render them with pagination
-    function filterAndRenderProducts(searchTerm, dataSource) {
-        const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
-
-        if (lowerCaseSearchTerm !== '') {
-            // If there's a search term, filter from the provided dataSource (which will be allProductsData)
-            currentDisplayedProducts = dataSource.filter(product =>
-                (product.name ? product.name.toLowerCase().includes(lowerCaseSearchTerm) : false)
-            );
-            // 更新頁面標題為搜尋結果
-            if (pageTitle) {
-                pageTitle.textContent = `搜尋結果："${searchTerm}"`;
-            }
-        } else {
-            // If no search term, use the initial products for this specific page
-            currentDisplayedProducts = dataSource; // 這是首頁「限時開團」的商品
-            // 恢復頁面原始標題
-            if (pageTitle) {
-                pageTitle.textContent = '限時開團'; // 這是首頁固定的預設標題
-            }
+    // ✅ 漢堡選單切換
+    hamburger.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        if (!navLinks.classList.contains('active')) {
+            dropdownParentLi.classList.remove('active');
         }
-
-        currentPage = 1; // Reset to first page after filtering
-        renderProductCards(currentDisplayedProducts, currentPage);
-        setupPaginationButtons(currentDisplayedProducts);
-    }
-
-    // Function to render product cards onto the grid
-    function renderProductCards(productsToDisplay, page = 1) {
-        if (!productGrid) return; // Exit if product grid is not found
-        productGrid.innerHTML = ''; // Clear existing products
-
-        const start = (page - 1) * productsPerPage;
-        const end = start + productsPerPage;
-        const productsForCurrentPage = productsToDisplay.slice(start, end);
-
-        if (productsForCurrentPage.length === 0) {
-            productGrid.innerHTML = '<p>暫無商品</p>';
-            return;
-        }
-
-        productsForCurrentPage.forEach(product => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <a href="product.html?id=${product.id}">
-                    <img src="${product.img}" alt="${product.name}">
-                </a>
-                <h3>${product.name}</h3>
-                <p>$${product.price}</p>
-                <button class="btn add-to-cart-btn" data-id="${product.id}">加入購物車</button>
-            `;
-            productGrid.appendChild(card);
-        });
-
-        // Re-attach add-to-cart listeners after rendering new cards
-        attachAddToCartListeners();
-    }
-
-    // Function to setup pagination buttons
-    function setupPaginationButtons(products) {
-        if (!paginationContainer) return; // Exit if pagination container is not found
-
-        const totalPages = Math.ceil(products.length / productsPerPage);
-        paginationContainer.innerHTML = ''; // Clear existing buttons
-
-        if (totalPages <= 1) {
-            paginationContainer.style.display = 'none'; // Hide if only one page or no products
-            return;
-        }
-
-        paginationContainer.style.display = 'flex'; // Show pagination
-
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.classList.add('page-btn');
-            button.dataset.page = i;
-            button.textContent = i;
-            if (i === currentPage) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                currentPage = i;
-                renderProductCards(products, currentPage);
-                // Update active state for buttons
-                paginationContainer.querySelectorAll('.page-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-            paginationContainer.appendChild(button);
-        }
-    }
-
-    // --- 輪播功能 ---
-    const carouselTrack = document.querySelector('.carousel-track');
-    const carouselImages = carouselTrack.querySelectorAll('img');
-    const carouselPrevBtn = document.querySelector('.carousel-btn.prev');
-    const carouselNextBtn = document.querySelector('.carousel-btn.next');
-
-    let currentCarouselIndex = 0;
-
-    function updateCarousel() {
-        if (carouselImages.length === 0) return;
-        const slideWidth = carouselImages[0].clientWidth;
-        carouselTrack.style.transform = `translateX(-${currentCarouselIndex * slideWidth}px)`;
-    }
-
-    if (carouselPrevBtn && carouselNextBtn) {
-        carouselNextBtn.addEventListener('click', () => {
-            currentCarouselIndex = (currentCarouselIndex + 1) % carouselImages.length;
-            updateCarousel();
-        });
-
-        carouselPrevBtn.addEventListener('click', () => {
-            currentCarouselIndex = (currentCarouselIndex - 1 + carouselImages.length) % carouselImages.length;
-            updateCarousel();
-        });
-    }
-
-    window.addEventListener('resize', updateCarousel);
-    updateCarousel(); // Initial carousel positioning
-    let carouselInterval = setInterval(nextSlide, 3000);
-
-    function nextSlide() {
-        currentCarouselIndex = (currentCarouselIndex + 1) % carouselImages.length;
-        updateCarousel();
-    }
-
-    // 滑入暫停
-    carouselTrack.addEventListener('mouseenter', () => clearInterval(carouselInterval));
-
-    // 滑出繼續
-    carouselTrack.addEventListener('mouseleave', () => {
-        carouselInterval = setInterval(nextSlide, 3000);
     });
 
-    // --- 加入購物車功能 (假設使用 cartUtils.js 中的 addToCart 和 showToast) ---
-    function attachAddToCartListeners() {
-        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-            // 移除舊的監聽器以避免重複綁定
-            btn.removeEventListener('click', handleAddToCart);
-            btn.addEventListener('click', handleAddToCart);
+    // ✅ 手機下拉選單展開/收合
+    dropdownToggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (window.innerWidth <= 768) {
+            dropdownParentLi.classList.toggle('active');
+        }
+    });
+
+    // ✅ 點選導覽選單後自動收合
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function () {
+            if (this === dropdownToggle) return;
+
+            if (dropdownParentLi.contains(this)) {
+                dropdownParentLi.classList.remove('active');
+            } else {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                dropdownParentLi.classList.remove('active');
+            }
+        });
+    });
+
+    // ✅ 點擊外部收合導覽與搜尋欄
+    document.addEventListener('click', function (event) {
+        const isClickInsideNav = navLinks.contains(event.target) || hamburger.contains(event.target);
+        const isClickInsideSearch = searchContainer.contains(event.target) || searchToggle.contains(event.target);
+
+        if (!isClickInsideNav) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            dropdownParentLi.classList.remove('active');
+        }
+
+        if (!isClickInsideSearch) {
+            suggestionList.classList.add('hidden');
+            searchContainer.classList.add('hidden');
+            searchInput.value = "";
+            renderInitialProducts(); // 回復初始商品
+        }
+    });
+
+    // ✅ 螢幕寬度變化時自動收合選單
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            dropdownParentLi.classList.remove('active');
+        }
+    });
+
+    // ✅ 點擊搜尋 icon 顯示搜尋欄
+    searchToggle.addEventListener('click', () => {
+        searchContainer.classList.toggle('hidden');
+        suggestionList.classList.add('hidden');
+
+        if (!searchContainer.classList.contains('hidden')) {
+            searchInput.focus();
+        } else {
+            searchInput.value = "";
+        }
+    });
+
+    // ✅ 即時搜尋功能
+    searchInput.addEventListener('input', () => {
+        const keyword = searchInput.value.trim().toLowerCase();
+        suggestionList.innerHTML = "";
+
+        if (keyword === "") {
+            suggestionList.classList.add('hidden');
+            return;
+        }
+
+        const matches = window.allProductsData.filter(item =>
+            item.name.toLowerCase().includes(keyword)
+        );
+
+        if (matches.length > 0) {
+            matches.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item.name;
+                li.addEventListener('click', () => {
+                    searchInput.value = item.name;
+                    suggestionList.classList.add('hidden');
+                    renderSearchResults(item.name);
+                });
+                suggestionList.appendChild(li);
+            });
+            suggestionList.classList.remove('hidden');
+        } else {
+            suggestionList.classList.add('hidden');
+        }
+    });
+
+    // ✅ Enter 鍵或按搜尋按鈕確認搜尋
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const keyword = searchInput.value.trim();
+            if (keyword !== "") {
+                suggestionList.classList.add('hidden');
+                renderSearchResults(keyword);
+            }
+        }
+    });
+
+    if (searchConfirm) {
+        searchConfirm.addEventListener('click', () => {
+            const keyword = searchInput.value.trim();
+            if (keyword !== "") {
+                suggestionList.classList.add('hidden');
+                renderSearchResults(keyword);
+            }
         });
     }
 
-    function handleAddToCart(e) {
-        const productId = e.currentTarget.dataset.id;
-        const quantity = 1; // 從商品列表頁加入購物車預設數量為 1
+    // ✅ 渲染首頁商品（ID 1~3）
+    function renderInitialProducts() {
+        const productContainer = document.getElementById('productList');
+        const title = document.getElementById('productSectionTitle');
+        if (!productContainer || !title) return;
 
-        const productData = allProductsData.find(p => String(p.id) === String(productId));
+        const products = window.allProductsData.filter(item => [1, 2, 3].includes(item.id));
 
-        if (productData) {
-            // 呼叫 cartUtils.js 中的 addToCart 函式
-            if (addToCart(productId, quantity, productData)) {
-                // 呼叫 cartUtils.js 中的 showToast 函式
-                showToast('商品已加入購物車！');
-            } else {
-                showToast('無法加入購物車，請稍後再試。', 5000);
-            }
+        title.textContent = "限時開團";
+
+        if (products.length > 0) {
+            productContainer.innerHTML = products.map(generateProductHTML).join('');
         } else {
-            console.error('商品資料未找到，ID:', productId);
-            showToast('無法將商品加入購物車：商品資料不存在！', 5000);
+            productContainer.innerHTML = `<div class="no-products">暫無商品</div>`;
+        }
+
+        attachAddToCartEvents();
+    }
+
+
+
+    // ✅ 搜尋結果渲染
+    function renderSearchResults(keyword) {
+        const results = window.allProductsData.filter(item =>
+            item.name.toLowerCase().includes(keyword.toLowerCase())
+        );
+
+        const productContainer = document.getElementById('productList');
+        const title = document.getElementById('productSectionTitle');
+        if (!productContainer || !title) return;
+
+        title.textContent = `搜尋結果：「${keyword}」`;
+
+        if (results.length > 0) {
+            productContainer.innerHTML = results.map(generateProductHTML).join('');
+        } else {
+            productContainer.innerHTML = `<p class="no-products">暫無商品</p>`;
+        }
+
+        attachAddToCartEvents();
+    }
+
+
+    // ✅ 單一商品卡片 HTML
+    function generateProductHTML(product) {
+        return `
+            <div class="product-card">
+                <a href="product.html?id=${product.id}">
+                    <img src="${product.img}" alt="${product.name}" class="product-img" />
+                </a>
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                    <button class="add-to-cart" data-id="${product.id}">加入購物車</button>
+                </div>
+            </div>
+        `;
+    }
+
+    // ✅ 加入購物車按鈕綁定
+    function attachAddToCartEvents() {
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const productId = parseInt(btn.getAttribute('data-id'));
+                addToCart(productId);
+                showToast("已加入購物車！");
+                showCartDot();
+            });
+        });
+    }
+
+    // ✅ 加入購物車（儲存在 localStorage）
+    function addToCart(productId) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existing = cart.find(item => item.id === productId);
+
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push({ id: productId, quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log("✅ 加入後購物車內容：", cart); // ← 這行會幫你 debug
+        updateCartBadge();
+    }
+
+    // ✅ 輪播功能（滿版 + 自動播放）
+    (function initCarousel() {
+        const track = document.querySelector('.carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.querySelector('.carousel-btn.prev');
+        const nextBtn = document.querySelector('.carousel-btn.next');
+        let currentIndex = 0;
+        let autoPlayInterval;
+
+        function updateCarousel() {
+            const slideWidth = slides[0].clientWidth;
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            updateCarousel();
+            resetAutoPlay();
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            updateCarousel();
+            resetAutoPlay();
+        }
+
+        function autoPlay() {
+            autoPlayInterval = setInterval(showNext, 5000); // 每 5 秒播放一次
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlay();
+        }
+
+        window.addEventListener('resize', updateCarousel);
+        prevBtn.addEventListener('click', showPrev);
+        nextBtn.addEventListener('click', showNext);
+
+        updateCarousel(); // 初始定位
+        autoPlay();       // 啟動自動播放
+    })();
+
+
+    // ✅ 更新購物車紅點
+    function updateCartBadge() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const totalCount = cart.reduce((sum, item) => sum + (parseInt(item.quantity) || 0), 0);
+
+        const cartBtn = document.querySelector('.cart-icon');
+        const badge = cartBtn?.querySelector('.cart-badge');
+
+        if (badge) {
+            if (totalCount > 0) {
+                badge.textContent = totalCount;
+                cartBtn.classList.add('has-items');
+            } else {
+                badge.textContent = '';
+                cartBtn.classList.remove('has-items');
+            }
         }
     }
 
-    // --- 頁面載入時的初始化 ---
-    // 初始載入：渲染首頁預設的商品並設定分頁
-    filterAndRenderProducts('', initialProductsForThisPage);
+    // ✅ 顯示提示訊息
+    function showToast(message) {
+        let toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
-    // 頁面載入時更新購物車小紅點 (假設 updateCartCount 在 cartUtils.js 中)
-    updateCartCount();
+        setTimeout(() => {
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 1500);
+        }, 10);
+    }
+
+    // ✅ 初次載入顯示紅點
+    function showCartDot() {
+        updateCartBadge();
+    }
+
+    // ✅ 初始化
+    renderInitialProducts();
+    updateCartBadge();
 });
