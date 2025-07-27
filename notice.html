@@ -1,124 +1,140 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elqamar—交易須知</title>
-    <link rel="stylesheet" href="css/notice.css"> </head>
-    <link rel="stylesheet" href="css/common.css">
-    <!-- 小圖示 for 瀏覽器標籤 -->
-    <link rel="icon" type="image/png" sizes="16x25" href="images/LOGO.png">
-    <link rel="icon" type="image/png" sizes="32x40" href="images/LOGO.png">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elqamar | 交易須知</title>
+    <link rel="stylesheet" href="css/notice.css" />
+</head>
 <body>
-    <header class="navbar">
-        <div class="navbar-left">
-            <a href="index.html" class="logo">Elqamar</a> <nav>
-                <ul>
-                    <li><a href="index.html">首頁</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropbtn">預購商品 <i class="arrow down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="idv.html">第五人格</a>
-                            <a href="#"></a>
-                            <a href="#"></a>
-                        </div>
-                    </li>
-                    <li><a href="spot.html">現貨商品</a></li>
-                    <li><a href="">交易須知</a></li>
-                    <li><a href="qa.html">Q&A</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="navbar-right">
-            <a href="cart.html" class="icon-link cart-icon-wrapper">
-                <img src="images/cart.png" alt="購物車">
-                <span class="cart-count">0</span>
-            </a>
-            <a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
-                <img src="images/ig.png" alt="IG">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
-                <img src="images/fb.png" alt="FB">
-            </a>
-        </div>
-    </header>
-    <!-- 交易流程 -->
-    <section class="product-section">
-        <h2>購買流程(預購&限時開團)</h2>
-        <div class="step-container">
-            <div class="step">1. 選擇商品</div>
-            <div class="step">2. 私訊確認訂單資料</div>
-            <div class="step">3. 選擇付款方式</div>
-            <div class="step">4. 等待商品到台</div>
-            <div class="step">5. 二補價格&選擇寄貨方式</div>
-            <div class="step">6. 商品寄件</div>
-        </div>            
-    </section>
-    <section class="product-section">
-        <h2>購買流程(現貨商品)</h2>
-        <div class="step-container">
-            <div class="step">1. 選擇商品</div>
-            <div class="step">2. 私訊確認訂單資料</div>
-            <div class="step">3. 選擇寄貨方式</div>
-            <div class="step">4. 提供連結下單</div>
-            <div class="step">5. 商品寄件</div>
-        </div>            
-    </section>
+    <div class="content-wrapper">
+        <header class="navbar">
+            <div class="container">
+                <div class="nav-left">
+                    <a href="index.html" class="logo">Elqamar</a>
+                    <nav class="nav-links">
+                        <ul>
+                            <li><a href="index.html">首頁</a></li>
+                            <li>
+                                <a href="" class="dropdown-toggle">預購商品▼</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="idv.html">第五人格</a></li>
+                                    <li><a href=""></a></li>
+                                    <li><a href=""></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="spot.html">現貨商品</a></li>                            
+                            <li><a href="notice.html">交易須知</a></li>
+                            <li><a href="qa.html">常見問題</a></li>
+                        </ul>
+                    </nav>
+                </div>
 
-    <!-- 精選商品區 -->
-    <section class="product-section">
-        <h2>交易須知</h2>
-            <div class="text-container">
-                <div class="left-text" >● 喊單後需先匯款，收款完成後才會下單<br>● 未於指定期限內完成匯款，將發布黑單或警告單<br>● 抱盒商品有概率無法湊齊該柄圖全員，不提供退換貨服務<br>
-                ● 請務必確認資料表內容正確，若資料錯誤未即時通知，造成訂單錯誤將不提供退換貨<br>● 代購屬於客製化訂單，不符合7天鑑賞期<br>● 交易成功達五次者能獲得折扣優惠<br>
-                ● 無開箱不售後，若商品有缺漏，請私訊開箱影片與缺漏品項<br><p style="color: red;">● 出貨後如未取貨導致退回，將酌收30元後再次出貨，仍被退回則依次疊加30元</p></div>
-                <div class="right-text" >● 未成年交易視為監護人同意<br>● 客製化服務為代買，無法保證真偽，請自行評估風險與責任<br>● 不與黑灰單交易<br>● 視情況進行二補（尾款補繳）<br>
-                <p style="color: red;">● 除寄錯/少寄外，售後不退，請確認清楚再購買</p>● 物品需一段時間等待<br><p style="color: red;">● 商品皆默認存在初傷及運送損傷</p></div>
+                <div class="nav-icons-wrapper">
+                    <div class="nav-right">                        
+                        <!-- 購物車圖示 -->
+                        <a href="cart.html" class="cart-icon">
+                            <img src="images/cart.png" alt="購物車" />
+                            <span class="cart-badge">0</span>
+                        </a>
+                        <a href="https://www.instagram.com/elqamar.ovo/" target="_blank" class="icon-link" aria-label="Instagram">
+                            <img src="images/ig.png" alt="Instagram" />
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61577311714295" target="_blank" class="icon-link" aria-label="Facebook">
+                            <img src="images/fb.png" alt="Facebook" />
+                        </a>
+                    </div>
+
+                    <button class="hamburger" aria-label="Toggle navigation">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
             </div>
-    </section>
-     <!-- 付款方式 -->
-    <section class="product-section">
-    <div class="text-container">
-        <div class="left-text">
+        </header>
+
+        <div class="container main-content">
             <section class="product-section">
-                <h2>付款方式</h2>
-                ✨ 匯款    <br>
-                ✨ 台新無卡<br>
-                ✨ 超商條碼+30<br>
-                ✨ 超商代碼+30<br>
-                ✨ 郵局跨行（郵局會收30手續費）<br>
-                ✨ 空包+12<br>
-            </section>
-        </div>
-        <div class="right-text">
-            <section class="product-section">
-                <h2>配送方式</h2>
-                ✨ 賣貨便＋15＆當月運費<br>
-                ✨ 好賣家＋15＆當月運費<br>
-                ✨ 蝦皮＋當月手續%數＆當月運費<br>
-                ✨ 郵局<a href="https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=2030103" style="text-decoration: none;">（費用請詳閱網址）</a><br><br><br>
+                <section class="notice-section">
+                    <h2>購買流程(預購&限時開團)</h2>
+                    <div class="purchase-flow">
+                        <div class="flow-box">1. 選擇商品</div>
+                        <div class="flow-box">2. 私訊確認訂單資料</div>
+                        <div class="flow-box">3. 選擇付款方式</div>
+                        <div class="flow-box">4. 等待商品到台</div>
+                        <div class="flow-box">5. 二補價格&選擇寄貨方式</div>
+                        <div class="flow-box">6. 商品寄件</div>
+                    </div>
+                    <h2>購買流程(現貨商品)</h2>
+                    <div class="purchase-flow">
+                        <div class="flow-box">1. 選擇商品</div>
+                        <div class="flow-box">2. 私訊確認訂單資料</div>
+                        <div class="flow-box">3. 選擇寄貨方式</div>
+                        <div class="flow-box">4. 連結下單</div>
+                        <div class="flow-box">5. 商品寄件</div>
+                    </div>
+
+                    <h2>交易須知</h2>
+                    <div class="two-column">
+                        <div class="column-left">
+                        <h3></h3>
+                        ● 喊單後需先匯款，收款完成後才會下單<br>● 未於指定期限內完成匯款，將發布黑單或警告單<br>● 抱盒商品有概率無法湊齊該柄圖全員，不提供退換貨服務<br>
+                        ● 請務必確認資料表內容正確，若資料錯誤未即時通知，造成訂單錯誤將不提供退換貨<br>● 代購屬於客製化訂單，不符合7天鑑賞期<br>● 交易成功達五次者能獲得折扣優惠<br>
+                        ● 無開箱不售後，若商品有缺漏，請私訊開箱影片與缺漏品項<br><p style="color: red;">● 出貨後如未取貨導致退回，將酌收30元後再次出貨，仍被退回則依次疊加30元</p>
+                        </div>
+                        <div class="column-right">
+                        <h3></h3>
+                        ● 未成年交易視為監護人同意<br>● 客製化服務為代買，無法保證真偽，請自行評估風險與責任<br>● 不與黑灰單交易<br>● 視情況進行二補（尾款補繳）<br>
+                        <p style="color: red;">● 除寄錯/少寄外，售後不退，請確認清楚再購買</p>● 物品需一段時間等待<br><p style="color: red;">● 商品皆默認存在初傷及運送損傷</p>
+                        </div>
+                    </div>
+
+                    <h2>付款與配送方式</h2>
+                    <div class="two-column">
+                        <div class="column-left">
+                        <h3>付款方式</h3>
+                        <ul>
+                            ✨ 匯款    <br>
+                            ✨ 台新無卡<br>
+                            ✨ 超商條碼+30<br>
+                            ✨ 超商代碼+30<br>
+                            ✨ 郵局跨行（郵局會收30手續費）<br>
+                            ✨ 空包+12<br>
+                        </ul>
+                        </div>
+                        <div class="column-right">
+                        <h3>配送方式</h3>
+                        <ul>
+                            ✨ 賣貨便＋15＆當月運費<br>
+                            ✨ 好賣家＋15＆當月運費<br>
+                            ✨ 蝦皮＋當月手續%數＆當月運費<br>
+                            ✨ 郵局<a href="https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=2030103" style="text-decoration: none;">（費用請詳閱網址）</a><br><br><br>
+                        </ul>
+                        </div>
+                    </div>
+                    </section>
+
             </section>
         </div>
     </div>
-    </section>
-    <!-- 選頁 -->
-    <!-- <div class="pagination">
-        <button class="page-btn" data-page="1">1</button>
-        <button class="page-btn" data-page="2">2</button>
-        <button class="page-btn" data-page="3">3</button>
-    </div> -->
 
-    <!-- 頁尾 -->
     <footer class="footer">
-        <p>&copy; Elqamar ｜聯絡我們：<a href="https://www.instagram.com/elqamar.ovo/" class="icon-link">
-                <img src="images/ig.png" alt="IG">
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61577311714295" class="icon-link">
-                <img src="images/fb.png" alt="FB">
-            </a></p>
+        <div class="container">
+            <div class="footer-primary">
+                <p>&copy; Elqamar ｜聯絡我們：</p>
+                <div class="footer-social-icons">
+                    <a href="https://www.instagram.com/elqamar.ovo/" target="_blank"><img src="images/ig.png" alt="IG" /></a>
+                    <a href="https://www.facebook.com/profile.php?id=61577311714295" target="_blank"><img src="images/fb.png" alt="FB" /></a>
+                </div>
+            </div>
+            <div class="footer-links-text">
+                <!-- <a href="#privacy">隱私政策</a> -->
+            </div>
+        </div>
     </footer>
 
-    <script src="js/cart-count.js"></script></body>
+    <script src="js/allProductsData.js"></script>
+    <script src="js/notice.js"></script>
+</body>
 </html>
