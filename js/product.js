@@ -4,6 +4,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const product = window.allProductsData.find(p => p.id === productId);
     const detailContainer = document.getElementById('productDetail');
 
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+    // 切換漢堡選單與 nav-links 顯示
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // 手機下拉選單展開控制
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+        e.preventDefault(); // 防止連結跳轉
+        const parentLi = toggle.closest('li');
+        parentLi.classList.toggle('active');
+        });
+    });
+
     if (!product) {
         detailContainer.innerHTML = "<p>找不到此商品。</p>";
         return;
