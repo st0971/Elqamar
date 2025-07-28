@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 
-        cartTotalElement.textContent = totalAmount.toFixed(0);
+        cartTotalElement.textContent = totalAmount.toLocaleString();
         attachCartEventListeners();
         updateCartBadge();
     }
