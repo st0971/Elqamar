@@ -81,7 +81,7 @@ body {
 /* --- 下拉選單預設樣式 (所有螢幕尺寸通用) --- */
 /* 將 .dropdown-menu 預設為隱藏，使用一個足夠的特異性 */
 .nav-links li .dropdown-menu { /* <-- 維持這個選擇器來隱藏 */
-    display: none; 
+    display: none;    
     position: absolute; /* 電腦版需要絕對定位 */
     background-color: #6C849B;
     min-width: 160px;
@@ -130,11 +130,35 @@ body {
     cursor: pointer;
 }
 
+/* 將動畫效果應用於圖片本身 */
 .icon-button img,
-.icon-link img {
+.icon-link img,
+.cart-icon img {
     width: 24px;
     height: 24px;
+    /* 確保所有圖示都有過渡效果 */
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; 
 }
+
+/* 針對購物車圖示的特定尺寸 */
+.cart-icon img {
+    width: 28px;
+    height: 28px;
+}
+
+/* 懸停效果：縮放與亮度 */
+.icon-button img:hover,
+.icon-link img:hover,
+.cart-icon img:hover {
+    transform: scale(1.1); /* 放大 10% */
+    filter: brightness(1.2); /* 增加亮度 */
+}
+
+/* 針對社群媒體圖示額外加入旋轉效果 */
+.icon-link img:hover {
+    transform: scale(1.1) rotate(5deg); /* 放大並旋轉 5 度 */
+}
+
 
 /* 搜尋功能 */
 .search-container {
@@ -367,11 +391,6 @@ body {
   display: inline-block;
 }
 
-.cart-icon img {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-}
 
 /* 購物車紅點 */
 .cart-badge {
@@ -612,14 +631,14 @@ body {
 
     /* 電腦版：導覽連結容器預設顯示 */
     .nav-links {
-        display: block; 
+        display: block;    
     }
 
     /* 電腦版：滑鼠懸停在服務項目時顯示下拉選單 */
     /* 這條規則的特異性 (nav-links li:hover > .dropdown-menu) 高於 .nav-links li .dropdown-menu */
     /* 確保滑鼠懸停時能正確顯示 */
     .nav-links li:hover > .dropdown-menu {
-        display: block; 
+        display: block;    
     }
 }
 
@@ -640,7 +659,7 @@ body {
     }
 
     /* 手機版：nav-links ul 應該是垂直排列 */
-    .nav-links ul { 
+    .nav-links ul {    
         flex-direction: column;
         width: 100%;
         text-align: center;

@@ -413,33 +413,34 @@ body {
 
 /* 購物車紅點 */
 .cart-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: red;
-    color: white;
-    width: 16px;
-    height: 16px;
-    font-size: 11px;
-    border-radius: 50%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    user-select: none;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 999px;
+  display: inline-block;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1;
+  z-index: 10;
 }
 
 .cart-icon.has-items .cart-badge {
-    display: flex;
-    animation: pulse 1s infinite;
+  display: inline-block;
 }
 
+.cart-icon.has-items .cart-badge {
+  display: inline-block;
+}
 @keyframes pulse {
     0% { transform: scale(1); }
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
-
 /* 提示訊息 */
 .toast {
     visibility: hidden; /* 預設隱藏 */
