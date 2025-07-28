@@ -129,5 +129,23 @@
 
     <script src="js/allProductsData.js"></script>
     <script src="js/qa.js"></script>
+    <script>
+    // 禁用右鍵
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+
+    // 禁用 F12 與 Ctrl+Shift+I 等
+    document.addEventListener('keydown', function (e) {
+        if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')
+        ) {
+        e.preventDefault();
+        }
+    });
+    </script>
+
 </body>
 </html>
